@@ -151,7 +151,6 @@
         }
         .score {
             font-family: 'Roboto Condensed', monospace;
-            font-size: 28px;
             font-weight: bold;
             color: white;
             text-align: center;
@@ -190,6 +189,33 @@
             margin-top: 20px;
             color: rgba(255,255,255,0.6);
         }
+        
+        /* Desktop specific styles */
+        @media (min-width: 601px) {
+            .team-1 {
+                max-width: 95%;
+                justify-content: flex-start;
+            }
+            .team-2 {
+                max-width: 95%;
+                justify-content: flex-end;
+            }
+            .winning-score {
+                color: var(--accent-color);
+                font-weight: 700;
+                text-shadow: 0 0 10px rgba(255,215,0,0.6);
+            }
+            .score-separator {
+                color: var(--light-color);
+                opacity: 0.7;
+                margin: 0 5px;
+            }
+            .mobile-score-display {
+                display: none;
+            }
+        }
+        
+        /* Mobile specific styles */
         @media (max-width: 600px) {
             .matchup {
                 grid-template-columns: 1fr;
@@ -208,34 +234,49 @@
             .score {
                 order: 2;
                 margin: 0 auto;
+                padding: 10px;
+                flex-direction: column;
+                height: auto;
+                width: 80%;
             }
-        }
-        
-        @media (min-width: 601px) {
-            .team-1 {
-                max-width: 95%;
-                justify-content: flex-start;
+            .desktop-score-display {
+                display: none;
             }
-            .team-2 {
-                max-width: 95%;
-                justify-content: flex-end;
+            .mobile-score-display {
+                width: 100%;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 15px;
             }
-        }
-        
-        .winning-score {
-            color: var(--accent-color);
-            font-weight: 700;
-            text-shadow: 0 0 10px rgba(255,215,0,0.6);
-        }
-        .score-separator {
-            color: var(--light-color);
-            opacity: 0.7;
-            margin: 0 5px;
-        }
-        .winner-indicator {
-            color: var(--accent-color);
-            font-size: 14px;
-            margin: 0 5px;
+            .team-score-box {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding: 5px;
+                border-radius: 4px;
+            }
+            .team-score-box.team1 {
+                background-color: rgba(0,0,0,0.3);
+                border-right: 2px solid var(--border-color);
+            }
+            .team-score-box.team2 {
+                background-color: rgba(0,0,0,0.3);
+            }
+            .team-label {
+                font-size: 12px;
+                opacity: 0.9;
+                margin-bottom: 5px;
+                text-transform: uppercase;
+            }
+            .team-abbr {
+                font-weight: bold;
+                color: var(--accent-color);
+            }
+            .winning-score-mobile {
+                color: var(--accent-color);
+                font-weight: 700;
+                text-shadow: 0 0 10px rgba(255,215,0,0.6);
+            }
         }
     </style>
 </head>
@@ -259,7 +300,7 @@
     </div>
 
     <script>
-        // ***************MATCH-UP DATA, UPDATE HERE***************
+        // Sample data - update these values with your actual scores
         const matchupsData = [
             {
                 team1: {
@@ -268,7 +309,7 @@
                 },
                 team2: {
                     name: "What's that Snell (Nishi)",
-                    score: 37.26
+                    score: 38.26
                 }
             },
             {
@@ -277,8 +318,8 @@
                     score: 42.8
                 },
                 team2: {
-                    name: "Rockford Peaches",
-                    score: 28.51
+                    name: "Home Run Heroes",
+                    score: 35.7
                 }
             }
         ];
@@ -316,38 +357,53 @@
             team1.className = 'team-name team-1';
             team1.innerHTML = `
                 <img src="https://i.imgur.com/gPSYa0w.png" alt="WAR Logo" class="team-logo">
-                ${team1Wins ? '<span class="winner-indicator">▶</span>' : ''}
                 ${data.team1.name}
             `;
             
-            // Score
-            const score = document.createElement('div');
-            score.className = 'score';
+            // Create the desktop score display
+            const scoreDesktop = document.createElement('div');
+            scoreDesktop.className = 'score desktop-score-display';
             
-            // Format the score with winning highlight
-            let scoreHtml;
+            // Format the desktop score with winning highlight
+            let scoreDesktopHtml;
             if (team1Wins) {
-                scoreHtml = `<span class="winning-score">${data.team1.score}</span><span class="score-separator">-</span>${data.team2.score}`;
+                scoreDesktopHtml = `<span class="winning-score">${data.team1.score}</span><span class="score-separator">-</span>${data.team2.score}`;
             } else if (team2Wins) {
-                scoreHtml = `${data.team1.score}<span class="score-separator">-</span><span class="winning-score">${data.team2.score}</span>`;
+                scoreDesktopHtml = `${data.team1.score}<span class="score-separator">-</span><span class="winning-score">${data.team2.score}</span>`;
             } else {
-                scoreHtml = `${data.team1.score}<span class="score-separator">-</span>${data.team2.score}`;
+                scoreDesktopHtml = `${data.team1.score}<span class="score-separator">-</span>${data.team2.score}`;
             }
             
-            score.innerHTML = scoreHtml;
+            scoreDesktop.innerHTML = scoreDesktopHtml;
+            
+            // Create the mobile score display
+            const scoreMobile = document.createElement('div');
+            scoreMobile.className = 'score mobile-score-display';
+            
+            // Get team abbreviation for the opponent
+            const opponentAbbr = data.team2.name.split(' ')[0];
+            
+            // Format the mobile score with separate boxes for each team
+            scoreMobile.innerHTML = `
+                <div class="team-score-box team1">
+                    <div class="team-label"><span class="team-abbr">WAR</span></div>
+                    <div class="${team1Wins ? 'winning-score-mobile' : ''}">${data.team1.score}</div>
+                </div>
+                <div class="team-score-box team2">
+                    <div class="team-label"><span class="team-abbr">${opponentAbbr}</span></div>
+                    <div class="${team2Wins ? 'winning-score-mobile' : ''}">${data.team2.score}</div>
+                </div>
+            `;
             
             // Team 2
             const team2 = document.createElement('div');
             team2.className = 'team-name team-2';
-            if (team2Wins) {
-                team2.innerHTML = `${data.team2.name} <span class="winner-indicator">◀</span>`;
-            } else {
-                team2.textContent = data.team2.name;
-            }
+            team2.textContent = data.team2.name;
             
             // Add all elements to the matchup
             matchup.appendChild(team1);
-            matchup.appendChild(score);
+            matchup.appendChild(scoreDesktop);
+            matchup.appendChild(scoreMobile);
             matchup.appendChild(team2);
             
             return matchup;
