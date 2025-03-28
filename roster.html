@@ -1,11 +1,4 @@
-.player-highlight {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            text-align: center;
-            padding: 10px;
-        }<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -165,6 +158,7 @@
         .roster-table td:last-child {
             text-align: center;
         }
+        
         .roster-table th {
             background-color: rgba(0,0,0,0.5);
             color: var(--accent-color);
@@ -196,6 +190,64 @@
             color: var(--light-color);
         }
         
+        /* Vote system styles */
+        .vote-header {
+            text-align: center;
+        }
+        
+        .vote-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .vote-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: transparent;
+            width: 32px;
+            height: 32px;
+            border-radius: 4px;
+        }
+        
+        .vote-button:hover {
+            transform: scale(1.1);
+        }
+        
+        .vote-up {
+            color: #4CAF50;
+        }
+        
+        .vote-up:hover, .vote-up.active {
+            background-color: rgba(76, 175, 80, 0.15);
+        }
+        
+        .vote-down {
+            color: #F44336;
+        }
+        
+        .vote-down:hover, .vote-down.active {
+            background-color: rgba(244, 67, 54, 0.15);
+        }
+        
+        .vote-count {
+            font-weight: bold;
+            font-size: 16px;
+            min-width: 30px;
+            text-align: center;
+        }
+        
+        .vote-disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
         /* Position group styles */
         .position-header {
             background-color: rgba(0,0,0,0.3);
@@ -216,24 +268,126 @@
             color: rgba(255,255,255,0.6);
         }
         
-        /* Responsive styles */
+        /* Player highlight styles */
+        .player-highlight {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+            padding: 10px;
+        }
+        
+        /* Enhanced text readability */
+        h1, h2, .player-name, .position {
+            text-shadow: 1px 2px 3px rgba(0,0,0,0.8);
+        }
+        
+        .player-link, .nav-links a {
+            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+        }
+        
+        /* Smooth transitions */
+        .content-container, .section-content, .player-link, .nav-links a,
+        .vote-button, .vote-count {
+            transition: all 0.3s ease;
+        }
+        
+        /* Enhanced hover effects */
+        .section-content:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.4);
+        }
+        
+        /* Player row hover enhancement */
+        .roster-table tbody tr {
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+        }
+        
+        .roster-table tbody tr:hover {
+            background-color: rgba(255,255,255,0.08);
+            border-left: 3px solid var(--accent-color);
+            transform: translateX(2px);
+        }
+        
+        /* Voting animation */
+        @keyframes votePulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.5); }
+            100% { transform: scale(1); }
+        }
+        
+        .vote-animation {
+            animation: votePulse 0.5s ease-in-out;
+        }
+        
+        /* Mobile-specific UI improvements */
         @media (max-width: 768px) {
-            body {
-                padding: 10px;
+            /* Enhanced touch targets for mobile */
+            .vote-button {
+                width: 36px;
+                height: 36px;
+                margin: 0 2px;
             }
             
-            h1 {
-                font-size: 22px;
+            /* Card-based layout for players on mobile */
+            .roster-table, .roster-table tbody, .roster-table tr {
+                display: block;
+                width: 100%;
             }
             
-            h2 {
-                font-size: 18px;
+            .roster-table thead {
+                display: none; /* Hide table headers on mobile */
             }
             
-            .update-date {
-                font-size: 14px;
+            .roster-table tbody tr {
+                display: flex;
+                flex-wrap: wrap;
+                margin-bottom: 10px;
+                background-color: rgba(0,0,0,0.2);
+                border-radius: 8px;
+                padding: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.2);
             }
             
+            .roster-table td {
+                border: none;
+                padding: 5px 8px;
+            }
+            
+            .roster-table td:nth-child(1) { /* Position */
+                order: 1;
+                width: auto;
+                font-weight: bold;
+                color: var(--accent-color);
+                background-color: rgba(0,0,0,0.3);
+                border-radius: 4px;
+                margin-right: 10px;
+                display: inline-block;
+            }
+            
+            .roster-table td:nth-child(2) { /* Player name */
+                order: 2;
+                width: 60%;
+                font-size: 16px;
+                font-weight: bold;
+            }
+            
+            .roster-table td:nth-child(3) { /* Voting */
+                order: 3;
+                width: 100%;
+                display: flex;
+                justify-content: flex-end;
+                padding-top: 8px;
+                margin-top: 5px;
+                border-top: 1px solid rgba(255,255,255,0.1);
+            }
+            
+            .vote-button svg {
+                width: 14px;
+                height: 14px;
+            }
             
             .top-nav {
                 padding: 10px 0 5px 0;
@@ -249,15 +403,6 @@
             .nav-links a {
                 font-size: 16px;
                 padding: 6px 12px;
-            }
-            
-            .roster-table th, .roster-table td {
-                padding: 8px 5px;
-                font-size: 14px;
-            }
-            
-            .section-content {
-                padding: 15px 10px;
             }
         }
     </style>
@@ -508,6 +653,13 @@
             // Mark buttons as voted
             const upButton = playerControl.querySelector('.vote-up');
             const downButton = playerControl.querySelector('.vote-down');
+            const voteCountEl = playerControl.querySelector('.vote-count');
+            
+            // Add animation to vote count
+            voteCountEl.classList.add('vote-animation');
+            setTimeout(() => {
+                voteCountEl.classList.remove('vote-animation');
+            }, 500);
             
             if (voteType === 'up') {
                 upButton.classList.add('active');
