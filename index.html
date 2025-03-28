@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WAR What Is It Good For - Fantasy Baseball</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #0E3B43;
+            color: white;
+        }
+        .scoreboard-container {
+            background-color: #0E3B43;
+            border: 10px solid #4A4A4A;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        .scoreboard-header {
+            background-color: #0A3161;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            border-bottom: 5px solid #4A4A4A;
+        }
+        h1 {
+            margin: 0;
+            font-size: 26px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .update-date {
+            font-size: 16px;
+            margin-top: 10px;
+            font-style: italic;
+        }
+        .matchups {
+            background-color: #0E3B43;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 5px;
+            padding: 10px;
+        }
+        .matchup {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            background-color: #0E3B43;
+            border-bottom: 2px solid #4A4A4A;
+            padding: 15px 10px;
+        }
+        .matchup:last-child {
+            border-bottom: none;
+        }
+        .team-name {
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            font-size: 20px;
+            color: #FFFFFF;
+            text-transform: uppercase;
+            padding: 5px;
+        }
+        .team-1 {
+            text-align: left;
+        }
+        .team-2 {
+            text-align: right;
+        }
+        .score {
+            font-family: 'Courier New', monospace;
+            font-size: 24px;
+            font-weight: bold;
+            color: #FFDE59;
+            text-align: center;
+            padding: 0 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .button-group {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .button {
+            background-color: #0A3161;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 5px;
+        }
+        .button:hover {
+            background-color: #0c3d7a;
+        }
+        .edit-mode {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #0A3161;
+            border-radius: 8px;
+            border: 1px solid #4A4A4A;
+            color: white;
+        }
+        input, select {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin: 5px 0;
+            width: 100%;
+        }
+        .form-row {
+            margin-bottom: 10px;
+        }
+        .hidden {
+            display: none;
+        }
+        .export-code {
+            width: 100%;
+            height: 100px;
+            font-family: monospace;
+            margin-top: 10px;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .scoreboard-frame {
+            border: 15px solid #0A3161;
+            border-radius: 0;
+            padding: 0;
+            background-color: #0E3B43;
+        }
+    </style>
+</head>
+<body>
+    <div class="scoreboard-container">
+        <div class="scoreboard-frame">
+            <div class="scoreboard-header">
+                <h1>WAR What Is It Good For Weekly Match-Ups</h1>
+                <div class="update-date" id="update-date">Updated on March 28, 2025</div>
+            </div>
+            
+            <div id="scoreboard" class="matchups">
+                <!-- Matchups will be inserted here -->
+            </div>
+        </div>
+    </div>
+    
+    <div class="button-group">
+        <button id="edit-button" class="button">Edit Scoreboard</button>
+        <button id="export-button" class="button">Export HTML</button>
+    </div>
+    
+    <div id="edit-mode" class="edit-mode hidden">
+        <h2>Edit Scoreboard</h2>
+        
+        <div class="form-row">
+            <label for="edit-date">Update Date:</label>
+            <input type="text" id="edit-date" placeholder="March 28, 2025">
+        </div>
+        
+        <div id="matchups-editor">
+            <!-- Matchup editors will be inserted here -->
+        </div>
+        
+        <div class="button-group">
+            <button id="add-matchup" class="button">Add Matchup</button>
+            <button id="save-button" class="button">Save Changes</button>
+        </div>
+    </div>
+    
+    <div id="export-section" class="edit-mode hidden">
+        <h2>Export HTML Code</h2>
+        <p>Copy the code below to share your scoreboard:</p>
+        <textarea id="export-code" class="export-code" readonly></textarea>
+        <div class="button-group">
+            <button id="copy-button" class="button">Copy to Clipboard</button>
+            <button id="back-button" class="button">Back to Scoreboard</button>
+        </div>
+    </div>
+
+    <script>
+        // Sample data structure
+        let scoreboardData = {
+            date: "March 28, 2025",
+            matchups: [
+                {
+                    team1: {
+                        name: "Sluggers",
+                        score: 7
+                    },
+                    team2: {
+                        name: "Bombers",
+                        score: 3
+                    }
+                },
+                {
+                    team1: {
+                        name: "Curve Balls",
+                        score: 5
+                    },
+                    team2: {
+                        name: "Home Run Heroes",
+                        score: 5
+                    }
+                },
+                {
+                    team1: {
+                        name: "Fastball Kings",
+                        score: 8
+                    },
+                    team2: {
+                        name: "Diamond Dukes",
+                        score: 2
+                    }
+                }
+            ]
+        };
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set date
+            const dateElement = document.getElementById('update-date');
+            dateElement.textContent = "Updated on " + scoreboardData.date;
+            
+            // Render scoreboard
+            renderScoreboard();
+            
+            // Setup event listeners
+            document.getElementById('edit-button').addEventListener('click', toggleEditMode);
+            document.getElementById('export-button').addEventListener('click', toggleExportMode);
+            document.getElementById('save-button').addEventListener('click', saveChanges);
+            document.getElementById('add-matchup').addEventListener('click', addMatchupEditor);
+            document.getElementById('copy-button').addEventListener('click', copyToClipboard);
+            document.getElementById('back-button').addEventListener('click', backToScoreboard);
+            
+            // Initialize edit form
+            document.getElementById('edit-date').value = scoreboardData.date;
+        });
+
+        // Render the scoreboard based on current data
+        function renderScoreboard() {
+            const scoreboard = document.getElementById('scoreboard');
+            
+            // Clear existing matchups
+            scoreboard.innerHTML = '';
+            
+            // Add each matchup
+            scoreboardData.matchups.forEach(matchup => {
+                const matchupElement = document.createElement('div');
+                matchupElement.className = 'matchup';
+                
+                // Team 1
+                const team1 = document.createElement('div');
+                team1.className = 'team-name team-1';
+                team1.textContent = matchup.team1.name;
+                
+                // Score
+                const scoreDiv = document.createElement('div');
+                scoreDiv.className = 'score';
+                scoreDiv.textContent = `${matchup.team1.score} - ${matchup.team2.score}`;
+                
+                // Team 2
+                const team2 = document.createElement('div');
+                team2.className = 'team-name team-2';
+                team2.textContent = matchup.team2.name;
+                
+                matchupElement.appendChild(team1);
+                matchupElement.appendChild(scoreDiv);
+                matchupElement.appendChild(team2);
+                scoreboard.appendChild(matchupElement);
+            });
+        }
+
+        // Toggle edit mode
+        function toggleEditMode() {
+            const editMode = document.getElementById('edit-mode');
+            const exportSection = document.getElementById('export-section');
+            
+            exportSection.classList.add('hidden');
+            editMode.classList.toggle('hidden');
+            
+            if (!editMode.classList.contains('hidden')) {
+                renderEditForm();
+            }
+        }
+
+        // Toggle export mode
+        function toggleExportMode() {
+            const editMode = document.getElementById('edit-mode');
+            const exportSection = document.getElementById('export-section');
+            
+            editMode.classList.add('hidden');
+            exportSection.classList.toggle('hidden');
+            
+            if (!exportSection.classList.contains('hidden')) {
+                generateExportCode();
+            }
+        }
+
+        // Render the edit form
+        function renderEditForm() {
+            const matchupsEditor = document.getElementById('matchups-editor');
+            matchupsEditor.innerHTML = '';
+            
+            // Create an editor for each matchup
+            scoreboardData.matchups.forEach((matchup, index) => {
+                addMatchupEditor(matchup, index);
+            });
+        }
+
+        // Add a matchup editor
+        function addMatchupEditor(matchup = null, index = null) {
+            const matchupsEditor = document.getElementById('matchups-editor');
+            
+            // If no matchup is provided, create a new empty one
+            if (!matchup) {
+                matchup = {
+                    team1: {
+                        name: "",
+                        score: 0
+                    },
+                    team2: {
+                        name: "",
+                        score: 0
+                    }
+                };
+                
+                // Add it to the data if it's a new matchup
+                if (index === null) {
+                    scoreboardData.matchups.push(matchup);
+                    index = scoreboardData.matchups.length - 1;
+                }
+            }
+            
+            const matchupEditor = document.createElement('div');
+            matchupEditor.className = 'matchup-editor';
+            matchupEditor.dataset.index = index;
+            
+            matchupEditor.innerHTML = `
+                <h3>Matchup ${index + 1}</h3>
+                <div class="form-row">
+                    <label>Team 1 Name:</label>
+                    <input type="text" class="team1-name" value="${matchup.team1.name}">
+                </div>
+                <div class="form-row">
+                    <label>Team 2 Name:</label>
+                    <input type="text" class="team2-name" value="${matchup.team2.name}">
+                </div>
+                <div class="form-row">
+                    <div style="display: flex; gap: 10px;">
+                        <div style="flex: 1;">
+                            <label>Team 1 Score:</label>
+                            <input type="number" class="team1-score" value="${matchup.team1.score}" min="0" max="999">
+                        </div>
+                        <div style="flex: 1;">
+                            <label>Team 2 Score:</label>
+                            <input type="number" class="team2-score" value="${matchup.team2.score}" min="0" max="999">
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Add remove button
+            const removeButton = document.createElement('button');
+            removeButton.className = 'button';
+            removeButton.textContent = 'Remove Matchup';
+            removeButton.style.backgroundColor = '#d32f2f';
+            removeButton.addEventListener('click', function() {
+                removeMatchup(index);
+            });
+            
+            const buttonDiv = document.createElement('div');
+            buttonDiv.className = 'button-group';
+            buttonDiv.appendChild(removeButton);
+            matchupEditor.appendChild(buttonDiv);
+            
+            // Add a divider
+            const divider = document.createElement('hr');
+            matchupEditor.appendChild(divider);
+            
+            matchupsEditor.appendChild(matchupEditor);
+        }
+
+        // Remove a matchup
+        function removeMatchup(index) {
+            scoreboardData.matchups.splice(index, 1);
+            renderEditForm();
+        }
+
+        // Save changes from the edit form
+        function saveChanges() {
+            // Update date
+            scoreboardData.date = document.getElementById('edit-date').value;
+            
+            // Update date display
+            document.getElementById('update-date').textContent = "Updated on " + scoreboardData.date;
+            
+            // Update each matchup
+            const matchupEditors = document.querySelectorAll('.matchup-editor');
+            matchupEditors.forEach(editor => {
+                const index = parseInt(editor.dataset.index);
+                const matchup = scoreboardData.matchups[index];
+                
+                matchup.team1.name = editor.querySelector('.team1-name').value;
+                matchup.team1.score = parseInt(editor.querySelector('.team1-score').value);
+                
+                matchup.team2.name = editor.querySelector('.team2-name').value;
+                matchup.team2.score = parseInt(editor.querySelector('.team2-score').value);
+            });
+            
+            // Re-render the scoreboard
+            renderScoreboard();
+            
+            // Hide edit mode
+            document.getElementById('edit-mode').classList.add('hidden');
+        }
+
+        // Generate export code
+        function generateExportCode() {
+            // Make a copy of the current HTML
+            const exportCode = document.documentElement.outerHTML;
+            
+            // Update the export code textarea
+            document.getElementById('export-code').value = exportCode;
+        }
+
+        // Copy export code to clipboard
+        function copyToClipboard() {
+            const exportCode = document.getElementById('export-code');
+            exportCode.select();
+            document.execCommand('copy');
+            alert('Code copied to clipboard!');
+        }
+
+        // Go back to scoreboard from export view
+        function backToScoreboard() {
+            document.getElementById('export-section').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
