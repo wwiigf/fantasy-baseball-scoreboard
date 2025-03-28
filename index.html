@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <title>WAR What Is It Good For - Fantasy Baseball</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=League+Spartan:wght@600;700&display=swap" rel="stylesheet">
     <style>
@@ -13,6 +13,9 @@
             --dark-color: #121212;
             --light-color: #FFFFFF;
             --border-color: #4A4A4A;
+            --instagram-purple: #833AB4;
+            --instagram-pink: #E1306C;
+            --instagram-orange: #FCAF45;
         }
         body {
             font-family: 'Roboto Condensed', sans-serif;
@@ -23,7 +26,7 @@
             background-attachment: fixed;
             color: var(--light-color);
         }
-        .scoreboard-container {
+        .scoreboard-container, .content-container {
             background-color: var(--primary-color);
             border: 6px solid var(--accent-color);
             border-radius: 10px;
@@ -32,7 +35,7 @@
             margin-bottom: 30px;
             position: relative;
         }
-        .scoreboard-header {
+        .scoreboard-header, .section-header {
             background: linear-gradient(to bottom, #0A3161, #041836);
             color: var(--light-color);
             text-align: center;
@@ -41,7 +44,11 @@
             position: relative;
             overflow: hidden;
         }
-        .scoreboard-header::after {
+        .section-header {
+            padding: 15px;
+            margin-bottom: 0;
+        }
+        .scoreboard-header::after, .section-header::after {
             content: "";
             position: absolute;
             top: 0;
@@ -51,13 +58,18 @@
             background: radial-gradient(circle at center, rgba(255,255,255,0.1) 0%, transparent 70%);
             pointer-events: none;
         }
-        h1 {
+        h1, h2 {
             margin: 0;
-            font-size: 28px;
             text-transform: uppercase;
             letter-spacing: 1px;
             font-weight: 700;
             text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        h1 {
+            font-size: 28px;
+        }
+        h2 {
+            font-size: 22px;
         }
         .update-date {
             font-size: 16px;
@@ -190,6 +202,224 @@
             color: rgba(255,255,255,0.6);
         }
         
+        /* Additional styles for new sections */
+        .content-section {
+            background: linear-gradient(to bottom, #0E3B43, #0A2A30);
+            padding: 15px;
+        }
+        .section-content {
+            background-color: rgba(0,0,0,0.3);
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            padding: 20px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .section-content:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+        
+        /* Mood Board Styles */
+        .mood-board {
+            text-align: center;
+        }
+        .mood-emoji {
+            font-size: 50px;
+            margin: 10px 0;
+            text-shadow: 0 0 15px rgba(255,215,0,0.5);
+        }
+        .mood-quote {
+            font-size: 18px;
+            font-style: italic;
+            line-height: 1.4;
+            margin: 15px 0;
+            color: var(--light-color);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        /* Player Highlight Styles */
+        .player-highlight {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+            padding: 10px;
+        }
+        @media (min-width: 601px) {
+            .player-highlight {
+                padding: 20px;
+            }
+        }
+        
+        /* Section subtitles */
+        .section-subtitle {
+            font-size: 14px;
+            font-style: italic;
+            margin-top: 5px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        /* Bad Man specific styles */
+        .bad-man-container .section-header {
+            background: linear-gradient(to bottom, #8B0000, #550000);
+            border-bottom: 4px solid #FF4500;
+        }
+        
+        .bad-man-container .section-content {
+            background-color: rgba(139, 0, 0, 0.2);
+            border: 2px solid #FF4500;
+        }
+        
+        .bad-man-container .player-name {
+            color: #FF4500;
+        }
+        
+        .bad-man-container .player-link {
+            color: #FF6347;
+        }
+        
+        .bad-man-container .player-link:hover {
+            color: #FF8C69;
+        }
+        
+        /* Bad Men Tracking specific styles */
+        .bad-men-tracking-container .section-header {
+            background: linear-gradient(to bottom, #8B0000, #550000);
+            border-bottom: 4px solid #FF4500;
+        }
+        
+        .bad-men-tracking-container .section-content {
+            background-color: rgba(139, 0, 0, 0.2);
+            border: 2px solid #FF4500;
+        }
+        
+        .bad-men-tracking-container th {
+            color: #FF4500;
+            background-color: rgba(139, 0, 0, 0.4);
+        }
+        
+        .bad-men-tracking-container .week-number {
+            color: #FF6347;
+        }
+        
+        .bad-men-tracking-container tr:hover {
+            background-color: rgba(139, 0, 0, 0.3);
+        }
+        
+        /* Team MVP specific styles */
+        .team-mvp-container .section-header {
+            background: linear-gradient(to bottom, #004D40, #00251A);
+            border-bottom: 4px solid #00E676;
+        }
+        
+        .team-mvp-container .section-content {
+            background-color: rgba(0, 77, 64, 0.2);
+            border: 2px solid #00E676;
+        }
+        
+        .team-mvp-container .player-name {
+            color: #00E676;
+            text-shadow: 0 0 10px rgba(0, 230, 118, 0.3);
+        }
+        
+        .team-mvp-container .player-link {
+            color: #00BFA5;
+        }
+        
+        .team-mvp-container .player-link:hover {
+            color: #64FFDA;
+        }
+        
+        /* Team MVP Tracking specific styles */
+        .team-mvp-tracking-container .section-header {
+            background: linear-gradient(to bottom, #004D40, #00251A);
+            border-bottom: 4px solid #00E676;
+        }
+        
+        .team-mvp-tracking-container .section-content {
+            background-color: rgba(0, 77, 64, 0.2);
+            border: 2px solid #00E676;
+        }
+        
+        .team-mvp-tracking-container th {
+            color: #00E676;
+            background-color: rgba(0, 77, 64, 0.4);
+        }
+        
+        .team-mvp-tracking-container .week-number {
+            color: #00BFA5;
+        }
+        
+        .team-mvp-tracking-container tr:hover {
+            background-color: rgba(0, 77, 64, 0.3);
+        }
+        .player-info {
+            flex: 1;
+        }
+        .player-name {
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        .player-details {
+            font-size: 18px;
+            line-height: 1.4;
+        }
+        .player-points {
+            font-size: 20px;
+            font-weight: bold;
+            margin: 10px 0;
+            color: var(--light-color);
+            background-color: rgba(0,0,0,0.5);
+            padding: 5px 15px;
+            border-radius: 5px;
+            display: inline-block;
+        }
+        .player-link {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.2s ease;
+        }
+        .player-link:hover {
+            text-decoration: underline;
+            color: var(--light-color);
+        }
+        
+        /* Tracking Table Styles */
+        .tracking-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        .tracking-table th, .tracking-table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .tracking-table th {
+            background-color: rgba(0,0,0,0.5);
+            color: var(--accent-color);
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .tracking-table tr:hover {
+            background-color: rgba(255,255,255,0.05);
+        }
+        .tracking-table .week-number {
+            text-align: center;
+            font-weight: bold;
+            color: var(--accent-color);
+            width: 60px;
+        }
+        .tracking-table .player-points-col {
+            text-align: right;
+            font-weight: bold;
+        }
+        
         /* Desktop specific styles */
         @media (min-width: 601px) {
             .team-1 {
@@ -213,24 +443,39 @@
             .mobile-score-display {
                 display: none;
             }
+            .sections-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 30px;
+            }
         }
         
         /* Mobile specific styles */
         @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            
             .matchup {
                 grid-template-columns: 1fr;
                 grid-template-rows: auto auto auto;
                 text-align: center;
                 gap: 10px;
+                padding: 15px 10px;
             }
+            
             .team-1, .team-2 {
                 text-align: center;
                 justify-content: center;
                 max-width: 100%;
+                font-size: 18px;
+                padding: 8px 5px;
             }
+            
             .team-2 {
                 order: 3;
             }
+            
             .score {
                 order: 2;
                 margin: 0 auto;
@@ -239,15 +484,18 @@
                 height: auto;
                 width: 80%;
             }
+            
             .desktop-score-display {
                 display: none;
             }
+            
             .mobile-score-display {
                 width: 100%;
                 display: grid;
                 grid-template-columns: 1fr 1fr;
                 gap: 15px;
             }
+            
             .team-score-box {
                 display: flex;
                 flex-direction: column;
@@ -255,27 +503,95 @@
                 padding: 5px;
                 border-radius: 4px;
             }
+            
             .team-score-box.team1 {
                 background-color: rgba(0,0,0,0.3);
                 border-right: 2px solid var(--border-color);
             }
+            
             .team-score-box.team2 {
                 background-color: rgba(0,0,0,0.3);
             }
+            
             .team-label {
                 font-size: 12px;
                 opacity: 0.9;
                 margin-bottom: 5px;
                 text-transform: uppercase;
             }
+            
             .team-abbr {
                 font-weight: bold;
                 color: var(--accent-color);
             }
+            
             .winning-score-mobile {
                 color: var(--accent-color);
                 font-weight: 700;
                 text-shadow: 0 0 10px rgba(255,215,0,0.6);
+            }
+            
+            .sections-grid {
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            h1 {
+                font-size: 22px;
+            }
+            
+            h2 {
+                font-size: 18px;
+            }
+            
+            .update-date, .team-record {
+                font-size: 14px;
+            }
+            
+            .section-subtitle {
+                font-size: 12px;
+            }
+            
+            .player-name {
+                font-size: 22px;
+            }
+            
+            .player-points {
+                font-size: 18px;
+            }
+            
+            .tracking-table th, .tracking-table td {
+                padding: 8px 5px;
+                font-size: 14px;
+            }
+            
+            .content-container {
+                margin-bottom: 20px;
+            }
+            
+            .scoreboard-container, .content-container {
+                border-width: 4px;
+            }
+            
+            .section-header {
+                padding: 12px 10px;
+            }
+            
+            .content-section {
+                padding: 10px;
+            }
+            
+            .section-content {
+                padding: 15px 10px;
+            }
+            
+            .mood-emoji {
+                font-size: 40px;
+            }
+            
+            .mood-quote {
+                font-size: 16px;
             }
         }
     </style>
@@ -291,6 +607,128 @@
             
             <div id="scoreboard" class="matchups">
                 <!-- Matchups will be dynamically inserted here -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- Mood Board Section -->
+    <div class="content-container">
+        <div class="section-header">
+            <h2>Mr. Manager's Mood Board</h2>
+        </div>
+        <div class="content-section">
+            <div class="section-content mood-board">
+                <div class="mood-emoji" id="mood-emoji">😡</div>
+                <div class="mood-quote" id="mood-quote">"Another week, another disappointment. I swear these players are deliberately tanking my team."</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Player Highlights Section (in grid) -->
+    <div class="sections-grid">
+        <!-- Team MVP Of The Week -->
+        <div class="content-container team-mvp-container">
+            <div class="section-header">
+                <h2>Team MVP Of The Week</h2>
+                <div class="section-subtitle">Player that has put up the most points on WWIIGF this week</div>
+            </div>
+            <div class="content-section">
+                <div class="section-content player-highlight">
+                    <div class="player-info">
+                        <div class="player-name" id="mvp-name">Ozzie Albies</div>
+                        <div class="player-details">
+                            <div class="player-points" id="mvp-points">22.3 points</div>
+                            <div>
+                                <a href="https://www.baseball-reference.com/players/a/albieoz01.shtml" class="player-link" id="mvp-link" target="_blank">View Stats</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Bad Man Of the Week -->
+        <div class="content-container bad-man-container">
+            <div class="section-header">
+                <h2>Bad Man Of The Week</h2>
+                <div class="section-subtitle">Player that has put up the most points against WWIIGF this week</div>
+            </div>
+            <div class="content-section">
+                <div class="section-content player-highlight">
+                    <div class="player-info">
+                        <div class="player-name" id="bad-man-name">Cedric Mullins</div>
+                        <div class="player-details">
+                            <div class="player-points" id="bad-man-points">28.5 points</div>
+                            <div>
+                                <a href="https://www.baseball-reference.com/players/m/mullicd01.shtml" class="player-link" id="bad-man-link" target="_blank">View Stats</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Tracking Sections (in grid) -->
+    <div class="sections-grid">
+        <!-- Team MVP Tracking -->
+        <div class="content-container team-mvp-tracking-container">
+            <div class="section-header">
+                <h2>Team MVP Tracking</h2>
+            </div>
+            <div class="content-section">
+                <div class="section-content">
+                    <table class="tracking-table" id="mvp-table">
+                        <thead>
+                            <tr>
+                                <th>Week</th>
+                                <th>Player</th>
+                                <th class="player-points-col">Points</th>
+                            </tr>
+                        </thead>
+                        <tbody id="mvp-body">
+                            <!-- Table rows will be inserted dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Bad Men Tracking -->
+        <div class="content-container bad-men-tracking-container">
+            <div class="section-header">
+                <h2>Bad Men Tracking</h2>
+            </div>
+            <div class="content-section">
+                <div class="section-content">
+                    <table class="tracking-table" id="bad-men-table">
+                        <thead>
+                            <tr>
+                                <th>Week</th>
+                                <th>Player</th>
+                                <th class="player-points-col">Points</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bad-men-body">
+                            <!-- Table rows will be inserted dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Instagram Promo Section with inline styles -->
+    <div class="content-container instagram-container">
+        <div class="section-header" style="background: linear-gradient(to bottom, #833AB4, #5B27A0) !important; border-bottom: 4px solid #E1306C !important;">
+            <h2>Follow For Updates</h2>
+        </div>
+        <div class="content-section">
+            <div class="section-content">
+                <div class="follow-content">
+                    <p>Get real-time team updates, news, and more!</p>
+                    <p class="follow-handle">Follow us on Instagram <a href="https://www.instagram.com/war_whatisitgoodfor" target="_blank" style="color: #E1306C !important;">@war_whatisitgoodfor</a></p>
+                </div>
             </div>
         </div>
     </div>
@@ -324,6 +762,38 @@
             }
         ];
         
+        // ********UPDATE MOOD BOARD DATA HERE********
+        const moodBoardData = {
+            mood: "Nervous", // Options: Happy, Sad, Angry, Scared, Nervous
+            quote: "I'M NOT WORRIED ABOUT IT."
+        };
+        
+        // ********UPDATE PLAYER HIGHLIGHTS HERE********
+        const badManData = {
+            name: "Cedric Mullins",
+            points: 15,
+            bbRefId: "mullicd01" // This is the ID from the baseball-reference URL
+        };
+        
+        const teamMVPData = {
+            name: "Paul Skenes",
+            points: 9.68,
+            bbRefId: "skenepa01" // This is the ID from the baseball-reference URL
+        };
+        
+        // ********UPDATE TRACKING DATA HERE********
+        const badMenTracking = [
+            { week: 1, name: "Cedric Mullins", points: 15 },
+            { week: 2, name: "", points:  },
+            { week: 3, name: "", points:  }
+        ];
+        
+        const teamMVPTracking = [
+            { week: 1, name: "Paul Skenes", points: 9.68 },
+            { week: 2, name: "", points:  },
+            { week: 3, name: "", points:  }
+        ];
+        
         // Set the update date
         const updateDate = "March 28, 2025";
         
@@ -331,6 +801,9 @@
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('update-date').textContent = "Updated on " + updateDate;
             renderMatchups();
+            renderMoodBoard();
+            renderPlayerHighlights();
+            renderTrackingTables();
         });
         
         // Render all matchups
@@ -367,11 +840,11 @@
             // Format the desktop score with winning highlight
             let scoreDesktopHtml;
             if (team1Wins) {
-                scoreDesktopHtml = `<span class="winning-score">${data.team1.score}</span><span class="score-separator">-</span>${data.team2.score}`;
+                scoreDesktopHtml = `<span class="winning-score">${data.team1.score.toFixed(2)}</span><span class="score-separator">-</span>${data.team2.score.toFixed(2)}`;
             } else if (team2Wins) {
-                scoreDesktopHtml = `${data.team1.score}<span class="score-separator">-</span><span class="winning-score">${data.team2.score}</span>`;
+                scoreDesktopHtml = `${data.team1.score.toFixed(2)}<span class="score-separator">-</span><span class="winning-score">${data.team2.score.toFixed(2)}</span>`;
             } else {
-                scoreDesktopHtml = `${data.team1.score}<span class="score-separator">-</span>${data.team2.score}`;
+                scoreDesktopHtml = `${data.team1.score.toFixed(2)}<span class="score-separator">-</span>${data.team2.score.toFixed(2)}`;
             }
             
             scoreDesktop.innerHTML = scoreDesktopHtml;
@@ -387,11 +860,11 @@
             scoreMobile.innerHTML = `
                 <div class="team-score-box team1">
                     <div class="team-label"><span class="team-abbr">WAR</span></div>
-                    <div class="${team1Wins ? 'winning-score-mobile' : ''}">${data.team1.score}</div>
+                    <div class="${team1Wins ? 'winning-score-mobile' : ''}">${data.team1.score.toFixed(2)}</div>
                 </div>
                 <div class="team-score-box team2">
                     <div class="team-label"><span class="team-abbr">${opponentAbbr}</span></div>
-                    <div class="${team2Wins ? 'winning-score-mobile' : ''}">${data.team2.score}</div>
+                    <div class="${team2Wins ? 'winning-score-mobile' : ''}">${data.team2.score.toFixed(2)}</div>
                 </div>
             `;
             
@@ -407,6 +880,64 @@
             matchup.appendChild(team2);
             
             return matchup;
+        }
+        
+        // Render mood board
+        function renderMoodBoard() {
+            const emojiMap = {
+                "Happy": "😄",
+                "Sad": "😢",
+                "Angry": "😡",
+                "Scared": "😨",
+                "Nervous": "😰"
+            };
+            
+            document.getElementById('mood-emoji').textContent = emojiMap[moodBoardData.mood] || "😐";
+            document.getElementById('mood-quote').textContent = moodBoardData.quote;
+        }
+        
+        // Render player highlights
+        function renderPlayerHighlights() {
+            // Bad Man of the Week
+            document.getElementById('bad-man-name').textContent = badManData.name;
+            document.getElementById('bad-man-points').textContent = `${badManData.points} points`;
+            document.getElementById('bad-man-link').href = `https://www.baseball-reference.com/players/${badManData.bbRefId.charAt(0)}/${badManData.bbRefId}.shtml`;
+            
+            // Team MVP of the Week
+            document.getElementById('mvp-name').textContent = teamMVPData.name;
+            document.getElementById('mvp-points').textContent = `${teamMVPData.points} points`;
+            document.getElementById('mvp-link').href = `https://www.baseball-reference.com/players/${teamMVPData.bbRefId.charAt(0)}/${teamMVPData.bbRefId}.shtml`;
+        }
+        
+        // Render tracking tables
+        function renderTrackingTables() {
+            // Bad Men Tracking
+            const badMenTable = document.getElementById('bad-men-body');
+            badMenTable.innerHTML = '';
+            
+            badMenTracking.forEach(player => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="week-number">Week ${player.week}</td>
+                    <td>${player.name}</td>
+                    <td class="player-points-col">${player.points}</td>
+                `;
+                badMenTable.appendChild(row);
+            });
+            
+            // Team MVP Tracking
+            const mvpTable = document.getElementById('mvp-body');
+            mvpTable.innerHTML = '';
+            
+            teamMVPTracking.forEach(player => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="week-number">Week ${player.week}</td>
+                    <td>${player.name}</td>
+                    <td class="player-points-col">${player.points}</td>
+                `;
+                mvpTable.appendChild(row);
+            });
         }
     </script>
 </body>
