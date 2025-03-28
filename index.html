@@ -87,6 +87,76 @@
             padding: 5px 15px;
             border-radius: 5px;
             margin-top: 15px;
+            margin-bottom: 15px;
+        }
+        
+        /* Top navigation bar */
+        .top-nav {
+            padding: 15px 0 5px 0;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        
+        .nav-links a {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 18px;
+            padding: 8px 18px;
+            border-radius: 5px;
+            transition: all 0.2s ease;
+            background-color: rgba(14, 59, 67, 0.9);
+            border: 2px solid var(--accent-color);
+        }
+        
+        .nav-links a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+        
+        .nav-links a.active {
+            background-color: rgba(14, 59, 67, 1);
+            box-shadow: 0 0 15px rgba(255,215,0,0.4);
+        }
+        
+        /* League Info Styles */
+        .league-info {
+            max-width: 650px;
+            margin: 0 auto;
+            padding: 5px 10px;
+            background-color: rgba(0,0,0,0.2);
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+        
+        .league-rules {
+            margin: 10px 0;
+            padding-left: 25px;
+            text-align: left;
+            display: inline-block;
+        }
+        
+        .league-rules li {
+            margin-bottom: 8px;
+            font-size: 16px;
+            line-height: 1.4;
+            color: var(--light-color);
+            position: relative;
+        }
+        
+        .league-rules li::before {
+            content: "•";
+            color: var(--accent-color);
+            font-weight: bold;
+            font-size: 18px;
+            position: absolute;
+            left: -20px;
         }
         .record-value {
             color: var(--light-color);
@@ -415,9 +485,42 @@
             color: var(--accent-color);
             width: 60px;
         }
-        .tracking-table .player-points-col {
+        .tracking-table         .player-points-col {
             text-align: right;
             font-weight: bold;
+        }
+        
+        /* League Information Styles */
+        .league-info-container .section-header {
+            background: linear-gradient(to bottom, #0A3161, #041836);
+            border-bottom: 4px solid var(--accent-color);
+        }
+        
+        .league-info-container .section-content {
+            background-color: rgba(10, 49, 97, 0.2);
+            border: 2px solid var(--accent-color);
+        }
+        
+        .league-rules {
+            margin: 10px 0;
+            padding-left: 25px;
+        }
+        
+        .league-rules li {
+            margin-bottom: 12px;
+            font-size: 18px;
+            line-height: 1.5;
+            color: var(--light-color);
+            position: relative;
+        }
+        
+        .league-rules li::before {
+            content: "•";
+            color: var(--accent-color);
+            font-weight: bold;
+            font-size: 20px;
+            position: absolute;
+            left: -20px;
         }
         
         /* Desktop specific styles */
@@ -545,8 +648,40 @@
                 font-size: 18px;
             }
             
-            .update-date, .team-record {
+            .update-date,             .team-record {
                 font-size: 14px;
+            }
+            
+            
+            .top-nav {
+                padding: 10px 0 5px 0;
+            }
+            
+            .nav-links {
+                flex-direction: row;
+                flex-wrap: wrap;
+                gap: 10px;
+                justify-content: center;
+            }
+            
+            .nav-links a {
+                font-size: 16px;
+                padding: 6px 12px;
+            }
+            
+            .league-info {
+                padding: 5px;
+            }
+            
+            .league-rules {
+                margin: 8px 0;
+                padding-left: 20px;
+            }
+            
+            .league-rules li {
+                margin-bottom: 6px;
+                font-size: 14px;
+                line-height: 1.3;
             }
             
             .section-subtitle {
@@ -597,12 +732,27 @@
     </style>
 </head>
 <body>
+    <!-- Top Navigation Bar -->
+    <div class="top-nav">
+        <div class="nav-links">
+            <a href="index.html" class="active">Scoreboard</a>
+            <a href="roster.html">Team Roster</a>
+        </div>
+    </div>
+
     <div class="scoreboard-container">
         <div class="scoreboard-frame">
             <div class="scoreboard-header">
                 <h1>WAR What Is It Good For Weekly Match-Ups</h1>
                 <div class="update-date" id="update-date">Updated on March 28, 2025</div>
-                <div class="team-record">Season Record: <span class="record-value">0 - 0</span></div>
+                <div class="team-record">Season Record: <span class="record-value" id="season-record">0 - 0</span></div>
+                <div class="league-info">
+                    <ul class="league-rules">
+                        <li>Doubleheader games each week</li>
+                        <li>Most points by the last game Sunday wins each game</li>
+                        <li>Scores and information updated each morning by Mr. Manager</li>
+                    </ul>
+                </div>
             </div>
             
             <div id="scoreboard" class="matchups">
@@ -794,12 +944,23 @@
             { week: 3, name: "-", points: 0 }
         ];
         
+        // ********UPDATE SEASON RECORD HERE********
+        const seasonRecord = {
+            display: "0 - 0" // Update this manually with your current season record
+        };
+        
         // Set the update date
-        const updateDate = "March 28, 2025";
+        const updateDate = "March 28, 2025"; // Manually update this date
         
         // Initialize when document is ready
         document.addEventListener('DOMContentLoaded', function() {
+            // Update the date
             document.getElementById('update-date').textContent = "Updated on " + updateDate;
+            
+            // Update season record from manual entry
+            document.getElementById('season-record').textContent = seasonRecord.display;
+            
+            // Render all sections
             renderMatchups();
             renderMoodBoard();
             renderPlayerHighlights();
