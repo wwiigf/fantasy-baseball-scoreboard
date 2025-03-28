@@ -78,13 +78,22 @@
             opacity: 0.9;
         }
         
-        /* Navigation styles */
+        /* Top navigation bar */
+        .top-nav {
+            background-color: var(--primary-color);
+            border-bottom: 4px solid var(--accent-color);
+            padding: 10px 0;
+            margin-bottom: 20px;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+        
         .nav-links {
-            margin-top: 15px;
             display: flex;
             justify-content: center;
             gap: 20px;
         }
+        
         .nav-links a {
             color: var(--accent-color);
             text-decoration: none;
@@ -95,10 +104,12 @@
             transition: all 0.2s ease;
             background-color: rgba(0,0,0,0.3);
         }
+        
         .nav-links a:hover {
             background-color: rgba(255,215,0,0.2);
             transform: translateY(-2px);
         }
+        
         .nav-links a.active {
             background-color: rgba(255,215,0,0.3);
             box-shadow: 0 0 10px rgba(255,215,0,0.3);
@@ -209,6 +220,12 @@
                 font-size: 14px;
             }
             
+            
+            .top-nav {
+                border-radius: 0;
+                padding: 5px 0;
+            }
+            
             .nav-links {
                 flex-direction: column;
                 gap: 10px;
@@ -233,14 +250,18 @@
     </style>
 </head>
 <body>
+    <!-- Top Navigation Bar -->
+    <div class="top-nav">
+        <div class="nav-links">
+            <a href="index.html">Scoreboard</a>
+            <a href="roster.html" class="active">Team Roster</a>
+        </div>
+    </div>
+
     <div class="header-container">
         <div class="header">
             <h1>WAR What Is It Good For - Team Roster</h1>
             <div class="update-date" id="update-date">Updated on March 28, 2025</div>
-            <div class="nav-links">
-                <a href="index.html">Scoreboard</a>
-                <a href="roster.html" class="active">Team Roster</a>
-            </div>
         </div>
     </div>
     
