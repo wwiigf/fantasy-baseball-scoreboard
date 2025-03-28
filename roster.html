@@ -1,9 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-    <title>WAR What Is It Good For - Team Roster</title>
+    <title>WAR What Is It Good For - Fantasy Baseball</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=League+Spartan:wght@600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -19,14 +17,14 @@
         }
         body {
             font-family: 'Roboto Condensed', sans-serif;
-            max-width: 1000px;
+            max-width: 800px;
             margin: 0 auto;
             padding: 20px;
             background: linear-gradient(135deg, #121212 0%, #1E293B 100%);
             background-attachment: fixed;
             color: var(--light-color);
         }
-        .header-container, .content-container {
+        .scoreboard-container, .content-container {
             background-color: var(--primary-color);
             border: 6px solid var(--accent-color);
             border-radius: 10px;
@@ -35,7 +33,7 @@
             margin-bottom: 30px;
             position: relative;
         }
-        .header, .section-header {
+        .scoreboard-header, .section-header {
             background: linear-gradient(to bottom, #0A3161, #041836);
             color: var(--light-color);
             text-align: center;
@@ -48,7 +46,7 @@
             padding: 15px;
             margin-bottom: 0;
         }
-        .header::after, .section-header::after {
+        .scoreboard-header::after, .section-header::after {
             content: "";
             position: absolute;
             top: 0;
@@ -76,6 +74,18 @@
             margin-top: 10px;
             font-style: italic;
             opacity: 0.9;
+        }
+        .team-record {
+            font-size: 18px;
+            margin-top: 10px;
+            font-weight: bold;
+            color: var(--accent-color);
+            background-color: rgba(0,0,0,0.3);
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 5px;
+            margin-top: 15px;
+            margin-bottom: 15px;
         }
         
         /* Top navigation bar */
@@ -113,7 +123,181 @@
             box-shadow: 0 0 15px rgba(255,215,0,0.4);
         }
         
-        /* Content section styles */
+        /* Enhanced text readability */
+        h1, h2, .team-name, .player-name {
+            text-shadow: 1px 2px 3px rgba(0,0,0,0.8);
+        }
+        
+        .player-link, .nav-links a {
+            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+        }
+        
+        /* Smooth transitions */
+        .matchup, .content-container, .section-content, .team-name, .score, 
+        .player-name, .player-link, .nav-links a, .team-record, .mood-emoji, .mood-quote {
+            transition: all 0.3s ease;
+        }
+        
+        /* Enhanced hover effects */
+        .matchup:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.4);
+        }
+        
+        .section-content:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.4);
+        }
+        
+        /* League Info Styles */
+        .league-info {
+            max-width: 650px;
+            margin: 0 auto;
+            padding: 5px 10px;
+            background-color: rgba(0,0,0,0.2);
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+        
+        .league-rules {
+            margin: 10px 0;
+            padding-left: 25px;
+            text-align: left;
+            display: inline-block;
+        }
+        
+        .league-rules li {
+            margin-bottom: 8px;
+            font-size: 16px;
+            line-height: 1.4;
+            color: var(--light-color);
+            position: relative;
+            list-style-type: none;
+        }
+        
+        .league-rules li::before {
+            content: "•";
+            color: var(--accent-color);
+            font-weight: bold;
+            font-size: 18px;
+            position: absolute;
+            left: -20px;
+            top: 0;
+        }
+        
+        .record-value {
+            color: var(--light-color);
+        }
+        .matchups {
+            background: linear-gradient(to bottom, #0E3B43, #0A2A30);
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 8px;
+            padding: 15px;
+        }
+        .matchup {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+            background-color: rgba(0,0,0,0.3);
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            padding: 20px 15px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.2));
+            border-left: 3px solid var(--accent-color);
+        }
+        .team-name {
+            font-weight: bold;
+            font-size: 20px;
+            color: var(--light-color);
+            text-transform: uppercase;
+            padding: 5px;
+            display: flex;
+            align-items: center;
+            white-space: normal;
+            line-height: 1.2;
+        }
+        .team-1 {
+            text-align: left;
+            color: var(--accent-color);
+            background: linear-gradient(to right, rgba(0,0,0,0.5), transparent);
+            border-radius: 4px;
+            padding: 10px;
+            font-family: 'League Spartan', sans-serif;
+            letter-spacing: 0.5px;
+            position: relative;
+        }
+        .team-1::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -2px;
+            width: 100%;
+            height: 2px;
+            background: var(--accent-color);
+        }
+        .team-logo {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+            border-radius: 50%;
+            border: 2px solid var(--accent-color);
+            object-fit: cover;
+            background-color: white;
+        }
+        .team-2 {
+            text-align: right;
+            justify-content: flex-end;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            word-break: keep-all;
+        }
+        .score {
+            font-family: 'Roboto Condensed', monospace;
+            font-weight: bold;
+            color: white;
+            text-align: center;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(0,0,0,0.4);
+            border-radius: 5px;
+            min-width: 80px;
+            height: 50px;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.3);
+        }
+        .scoreboard-frame {
+            border: 4px solid var(--dark-color);
+            border-radius: 0;
+            padding: 0;
+            background-color: var(--primary-color);
+            position: relative;
+            z-index: 1;
+        }
+        .scoreboard-frame::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 98%, rgba(255,255,255,0.1) 100%);
+            z-index: -1;
+            pointer-events: none;
+        }
+        .footer {
+            text-align: center;
+            font-size: 12px;
+            margin-top: 20px;
+            color: rgba(255,255,255,0.6);
+        }
+        
+        /* Additional styles for new sections */
         .content-section {
             background: linear-gradient(to bottom, #0E3B43, #0A2A30);
             padding: 15px;
@@ -125,9 +309,46 @@
             padding: 20px;
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
-        .section-content:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        
+        /* Mood Board Styles */
+        .mood-board {
+            text-align: center;
+        }
+        .mood-emoji {
+            font-size: 50px;
+            margin: 10px 0;
+            text-shadow: 0 0 15px rgba(255,215,0,0.5);
+            animation: pulse 2s infinite ease-in-out;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .mood-quote {
+            font-size: 18px;
+            font-style: italic;
+            line-height: 1.4;
+            margin: 15px 0;
+            color: var(--light-color);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        /* Player Highlight Styles */
+        .player-highlight {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+            padding: 10px;
+        }
+        @media (min-width: 601px) {
+            .player-highlight {
+                padding: 20px;
+            }
         }
         
         /* Section subtitles */
@@ -138,47 +359,124 @@
             color: rgba(255, 255, 255, 0.8);
         }
         
-        /* Roster table styles */
-        .roster-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-        }
-        .roster-table th, .roster-table td {
-            padding: 12px 10px;
-            text-align: left;
-            border-bottom: 1px solid var(--border-color);
+        /* Bad Man specific styles */
+        .bad-man-container .section-header {
+            background: linear-gradient(to bottom, #8B0000, #550000);
+            border-bottom: 4px solid #FF4500;
         }
         
-        .roster-table th.vote-header {
-            width: 120px;
-            text-align: center;
+        .bad-man-container .section-content {
+            background-color: rgba(139, 0, 0, 0.2);
+            border: 2px solid #FF4500;
         }
         
-        .roster-table td:last-child {
-            text-align: center;
+        .bad-man-container .player-name {
+            color: #FF4500;
         }
         
-        .roster-table th {
-            background-color: rgba(0,0,0,0.5);
+        .bad-man-container .player-link {
+            color: #FF6347;
+        }
+        
+        .bad-man-container .player-link:hover {
+            color: #FF8C69;
+        }
+        
+        /* Bad Men Tracking specific styles */
+        .bad-men-tracking-container .section-header {
+            background: linear-gradient(to bottom, #8B0000, #550000);
+            border-bottom: 4px solid #FF4500;
+        }
+        
+        .bad-men-tracking-container .section-content {
+            background-color: rgba(139, 0, 0, 0.2);
+            border: 2px solid #FF4500;
+        }
+        
+        .bad-men-tracking-container th {
+            color: #FF4500;
+            background-color: rgba(139, 0, 0, 0.4);
+        }
+        
+        .bad-men-tracking-container .week-number {
+            color: #FF6347;
+        }
+        
+        .bad-men-tracking-container tr:hover {
+            background-color: rgba(139, 0, 0, 0.3);
+        }
+        
+        /* Team MVP specific styles */
+        .team-mvp-container .section-header {
+            background: linear-gradient(to bottom, #004D40, #00251A);
+            border-bottom: 4px solid #00E676;
+        }
+        
+        .team-mvp-container .section-content {
+            background-color: rgba(0, 77, 64, 0.2);
+            border: 2px solid #00E676;
+        }
+        
+        .team-mvp-container .player-name {
+            color: #00E676;
+            text-shadow: 0 0 10px rgba(0, 230, 118, 0.3);
+        }
+        
+        .team-mvp-container .player-link {
+            color: #00BFA5;
+        }
+        
+        .team-mvp-container .player-link:hover {
+            color: #64FFDA;
+        }
+        
+        /* Team MVP Tracking specific styles */
+        .team-mvp-tracking-container .section-header {
+            background: linear-gradient(to bottom, #004D40, #00251A);
+            border-bottom: 4px solid #00E676;
+        }
+        
+        .team-mvp-tracking-container .section-content {
+            background-color: rgba(0, 77, 64, 0.2);
+            border: 2px solid #00E676;
+        }
+        
+        .team-mvp-tracking-container th {
+            color: #00E676;
+            background-color: rgba(0, 77, 64, 0.4);
+        }
+        
+        .team-mvp-tracking-container .week-number {
+            color: #00BFA5;
+        }
+        
+        .team-mvp-tracking-container tr:hover {
+            background-color: rgba(0, 77, 64, 0.3);
+        }
+        .player-info {
+            flex: 1;
+        }
+        .player-name {
+            font-size: 28px;
+            font-weight: bold;
             color: var(--accent-color);
+            margin-bottom: 15px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        .player-details {
+            font-size: 18px;
+            line-height: 1.4;
+        }
+        .player-points {
+            font-size: 20px;
             font-weight: bold;
-            text-transform: uppercase;
+            margin: 10px 0;
+            color: var(--light-color);
+            background-color: rgba(0,0,0,0.5);
+            padding: 5px 15px;
+            border-radius: 5px;
+            display: inline-block;
         }
-        .roster-table tr:hover {
-            background-color: rgba(255,255,255,0.05);
-        }
-        .roster-table .position {
-            text-align: center;
-            font-weight: bold;
-            width: 60px;
-        }
-        .roster-table .player-stats {
-            text-align: right;
-            font-weight: bold;
-        }
-        
-        /* Roster player link */
         .player-link {
             color: var(--accent-color);
             text-decoration: none;
@@ -190,203 +488,223 @@
             color: var(--light-color);
         }
         
-        /* Vote system styles */
-        .vote-header {
-            text-align: center;
+        /* Tracking Table Styles */
+        .tracking-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
         }
-        
-        .vote-controls {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
+        .tracking-table th, .tracking-table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
         }
-        
-        .vote-button {
-            background: none;
-            border: none;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: transparent;
-            width: 32px;
-            height: 32px;
-            border-radius: 4px;
-        }
-        
-        .vote-button:hover {
-            transform: scale(1.1);
-        }
-        
-        .vote-up {
-            color: #4CAF50;
-        }
-        
-        .vote-up:hover, .vote-up.active {
-            background-color: rgba(76, 175, 80, 0.15);
-        }
-        
-        .vote-down {
-            color: #F44336;
-        }
-        
-        .vote-down:hover, .vote-down.active {
-            background-color: rgba(244, 67, 54, 0.15);
-        }
-        
-        .vote-count {
-            font-weight: bold;
-            font-size: 16px;
-            min-width: 30px;
-            text-align: center;
-        }
-        
-        .vote-disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-        
-        /* Position group styles */
-        .position-header {
-            background-color: rgba(0,0,0,0.3);
-            padding: 8px 15px;
-            margin: 20px 0 10px 0;
-            border-radius: 5px;
+        .tracking-table th {
+            background-color: rgba(0,0,0,0.5);
             color: var(--accent-color);
             font-weight: bold;
             text-transform: uppercase;
-            letter-spacing: 1px;
         }
-        
-        /* Footer styles */
-        .footer {
+        .tracking-table tr:hover {
+            background-color: rgba(255,255,255,0.05);
+        }
+        .tracking-table .week-number {
             text-align: center;
-            font-size: 12px;
-            margin-top: 20px;
-            color: rgba(255,255,255,0.6);
+            font-weight: bold;
+            color: var(--accent-color);
+            width: 60px;
+        }
+        .tracking-table .player-points-col {
+            text-align: right;
+            font-weight: bold;
         }
         
-        /* Player highlight styles */
-        .player-highlight {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            text-align: center;
-            padding: 10px;
+        /* Desktop specific styles */
+        @media (min-width: 601px) {
+            .team-1 {
+                max-width: 95%;
+                justify-content: flex-start;
+            }
+            .team-2 {
+                max-width: 95%;
+                justify-content: flex-end;
+            }
+            .winning-score {
+                color: var(--accent-color);
+                font-weight: 700;
+                text-shadow: 0 0 10px rgba(255,215,0,0.6);
+            }
+            .score-separator {
+                color: var(--light-color);
+                opacity: 0.7;
+                margin: 0 5px;
+            }
+            .mobile-score-display {
+                display: none;
+            }
+            .sections-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 30px;
+            }
         }
         
-        /* Enhanced text readability */
-        h1, h2, .player-name, .position {
-            text-shadow: 1px 2px 3px rgba(0,0,0,0.8);
-        }
-        
-        .player-link, .nav-links a {
-            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
-        }
-        
-        /* Smooth transitions */
-        .content-container, .section-content, .player-link, .nav-links a,
-        .vote-button, .vote-count {
-            transition: all 0.3s ease;
-        }
-        
-        /* Enhanced hover effects */
-        .section-content:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 15px rgba(0,0,0,0.4);
-        }
-        
-        /* Player row hover enhancement */
-        .roster-table tbody tr {
-            transition: all 0.2s ease;
-            border-left: 3px solid transparent;
-        }
-        
-        .roster-table tbody tr:hover {
-            background-color: rgba(255,255,255,0.08);
-            border-left: 3px solid var(--accent-color);
-            transform: translateX(2px);
-        }
-        
-        /* Voting animation */
-        @keyframes votePulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.5); }
-            100% { transform: scale(1); }
-        }
-        
-        .vote-animation {
-            animation: votePulse 0.5s ease-in-out;
-        }
-        
-        /* Mobile-specific UI improvements */
-        @media (max-width: 768px) {
-            /* Enhanced touch targets for mobile */
-            .vote-button {
-                width: 36px;
-                height: 36px;
-                margin: 0 2px;
+        /* Mobile specific styles */
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
             }
             
-            /* Card-based layout for players on mobile */
-            .roster-table, .roster-table tbody, .roster-table tr {
-                display: block;
+            .matchup {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto auto auto;
+                text-align: center;
+                gap: 10px;
+                padding: 12px 8px;
+                border-left-width: 6px;
+            }
+            
+            .team-1, .team-2 {
+                text-align: center;
+                justify-content: center;
+                max-width: 100%;
+                font-size: 18px;
+                padding: 8px 5px;
+            }
+            
+            .team-2 {
+                order: 3;
+            }
+            
+            .score {
+                order: 2;
+                margin: 0 auto;
+                padding: 10px 0;
+                flex-direction: column;
+                height: auto;
+                width: 100%;
+                overflow: hidden;
+            }
+            
+            .desktop-score-display {
+                display: none;
+            }
+            
+            .mobile-score-display {
+                width: 100%;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 0;
+                position: relative;
+                overflow: hidden;
+                border-radius: 4px;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            }
+            
+            .team-score-box {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding: 5px 2px;
+                border-radius: 0;
                 width: 100%;
             }
             
-            .roster-table thead {
-                display: none; /* Hide table headers on mobile */
+            .team-score-box.team1 {
+                background-color: rgba(0,0,0,0.3);
+                border-right: 1px solid var(--border-color);
             }
             
-            .roster-table tbody tr {
-                display: flex;
-                flex-wrap: wrap;
-                margin-bottom: 10px;
-                background-color: rgba(0,0,0,0.2);
-                border-radius: 8px;
-                padding: 8px;
-                box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            .team-score-box.team2 {
+                background-color: rgba(0,0,0,0.3);
             }
             
-            .roster-table td {
-                border: none;
-                padding: 5px 8px;
+            .team-label {
+                font-size: 12px;
+                opacity: 0.9;
+                margin-bottom: 5px;
+                text-transform: uppercase;
             }
             
-            .roster-table td:nth-child(1) { /* Position */
-                order: 1;
-                width: auto;
+            .team-abbr {
                 font-weight: bold;
                 color: var(--accent-color);
-                background-color: rgba(0,0,0,0.3);
-                border-radius: 4px;
-                margin-right: 10px;
-                display: inline-block;
             }
             
-            .roster-table td:nth-child(2) { /* Player name */
-                order: 2;
-                width: 60%;
+            .winning-score-mobile {
+                color: var(--accent-color);
+                font-weight: 700;
+                text-shadow: 0 0 10px rgba(255,215,0,0.6);
+                animation: scorePulse 1.5s infinite ease-in-out;
+            }
+            
+            @keyframes scorePulse {
+                0% { transform: scale(1); }
+                50% { transform: scale(1.05); }
+                100% { transform: scale(1); }
+            }
+            
+            .sections-grid {
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            h1 {
+                font-size: 22px;
+            }
+            
+            h2 {
+                font-size: 18px;
+            }
+            
+            .update-date, .team-record {
+                font-size: 14px;
+            }
+            
+            .section-subtitle {
+                font-size: 12px;
+            }
+            
+            .player-name {
+                font-size: 22px;
+            }
+            
+            .player-points {
+                font-size: 18px;
+            }
+            
+            .tracking-table th, .tracking-table td {
+                padding: 8px 5px;
+                font-size: 14px;
+            }
+            
+            .content-container {
+                margin-bottom: 20px;
+            }
+            
+            .scoreboard-container, .content-container {
+                border-width: 4px;
+            }
+            
+            .section-header {
+                padding: 12px 10px;
+            }
+            
+            .content-section {
+                padding: 10px;
+            }
+            
+            .section-content {
+                padding: 15px 10px;
+            }
+            
+            .mood-emoji {
+                font-size: 40px;
+            }
+            
+            .mood-quote {
                 font-size: 16px;
-                font-weight: bold;
-            }
-            
-            .roster-table td:nth-child(3) { /* Voting */
-                order: 3;
-                width: 100%;
-                display: flex;
-                justify-content: flex-end;
-                padding-top: 8px;
-                margin-top: 5px;
-                border-top: 1px solid rgba(255,255,255,0.1);
-            }
-            
-            .vote-button svg {
-                width: 14px;
-                height: 14px;
             }
             
             .top-nav {
@@ -406,72 +724,902 @@
             }
         }
     </style>
+</head><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>WAR What Is It Good For - Fantasy Baseball</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=League+Spartan:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #0E3B43;
+            --secondary-color: #CF0A2C;
+            --accent-color: #FFD700;
+            --dark-color: #121212;
+            --light-color: #FFFFFF;
+            --border-color: #4A4A4A;
+            --instagram-purple: #833AB4;
+            --instagram-pink: #E1306C;
+            --instagram-orange: #FCAF45;
+        }
+        body {
+            font-family: 'Roboto Condensed', sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #121212 0%, #1E293B 100%);
+            background-attachment: fixed;
+            color: var(--light-color);
+        }
+        .scoreboard-container, .content-container {
+            background-color: var(--primary-color);
+            border: 6px solid var(--accent-color);
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6), 0 0 20px rgba(255,215,0,0.3);
+            overflow: hidden;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        .scoreboard-header, .section-header {
+            background: linear-gradient(to bottom, #0A3161, #041836);
+            color: var(--light-color);
+            text-align: center;
+            padding: 20px 15px;
+            border-bottom: 4px solid var(--accent-color);
+            position: relative;
+            overflow: hidden;
+        }
+        .section-header {
+            padding: 15px;
+            margin-bottom: 0;
+        }
+        .scoreboard-header::after, .section-header::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, rgba(255,255,255,0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        h1, h2 {
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        h1 {
+            font-size: 28px;
+        }
+        h2 {
+            font-size: 22px;
+        }
+        .update-date {
+            font-size: 16px;
+            margin-top: 10px;
+            font-style: italic;
+            opacity: 0.9;
+        }
+        .team-record {
+            font-size: 18px;
+            margin-top: 10px;
+            font-weight: bold;
+            color: var(--accent-color);
+            background-color: rgba(0,0,0,0.3);
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 5px;
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+        
+        /* Top navigation bar */
+        .top-nav {
+            padding: 15px 0 5px 0;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        
+        .nav-links a {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 18px;
+            padding: 8px 18px;
+            border-radius: 5px;
+            transition: all 0.2s ease;
+            background-color: rgba(14, 59, 67, 0.9);
+            border: 2px solid var(--accent-color);
+        }
+        
+        .nav-links a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+        
+        .nav-links a.active {
+            background-color: rgba(14, 59, 67, 1);
+            box-shadow: 0 0 15px rgba(255,215,0,0.4);
+        }
+        
+        /* League Info Styles */
+        .league-info {
+            max-width: 650px;
+            margin: 0 auto;
+            padding: 5px 10px;
+            background-color: rgba(0,0,0,0.2);
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+        
+        .league-rules {
+            margin: 10px 0;
+            padding-left: 25px;
+            text-align: left;
+            display: inline-block;
+        }
+        
+        .league-rules li {
+            margin-bottom: 8px;
+            font-size: 16px;
+            line-height: 1.4;
+            color: var(--light-color);
+            position: relative;
+            list-style-type: none;
+        }
+        
+        .league-rules li::before {
+            content: "•";
+            color: var(--accent-color);
+            font-weight: bold;
+            font-size: 18px;
+            position: absolute;
+            left: -20px;
+            top: 0;
+        }
+        .record-value {
+            color: var(--light-color);
+        }
+        .matchups {
+            background: linear-gradient(to bottom, #0E3B43, #0A2A30);
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 8px;
+            padding: 15px;
+        }
+        .matchup {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+            background-color: rgba(0,0,0,0.3);
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            padding: 20px 15px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.2));
+            border-left: 3px solid var(--accent-color);
+        }
+        .matchup:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+        .team-name {
+            font-weight: bold;
+            font-size: 20px;
+            color: var(--light-color);
+            text-transform: uppercase;
+            padding: 5px;
+            display: flex;
+            align-items: center;
+            white-space: normal;
+            line-height: 1.2;
+        }
+        .team-1 {
+            text-align: left;
+            color: var(--accent-color);
+            background: linear-gradient(to right, rgba(0,0,0,0.5), transparent);
+            border-radius: 4px;
+            padding: 10px;
+            font-family: 'League Spartan', sans-serif;
+            letter-spacing: 0.5px;
+            position: relative;
+        }
+        .team-1::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -2px;
+            width: 100%;
+            height: 2px;
+            background: var(--accent-color);
+        }
+        .team-logo {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+            border-radius: 50%;
+            border: 2px solid var(--accent-color);
+            object-fit: cover;
+            background-color: white;
+        }
+        .team-2 {
+            text-align: right;
+            justify-content: flex-end;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            word-break: keep-all;
+        }
+        .score {
+            font-family: 'Roboto Condensed', monospace;
+            font-weight: bold;
+            color: white;
+            text-align: center;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(0,0,0,0.4);
+            border-radius: 5px;
+            min-width: 80px;
+            height: 50px;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.3);
+        }
+        .scoreboard-frame {
+            border: 4px solid var(--dark-color);
+            border-radius: 0;
+            padding: 0;
+            background-color: var(--primary-color);
+            position: relative;
+            z-index: 1;
+        }
+        .scoreboard-frame::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 98%, rgba(255,255,255,0.1) 100%);
+            z-index: -1;
+            pointer-events: none;
+        }
+        .footer {
+            text-align: center;
+            font-size: 12px;
+            margin-top: 20px;
+            color: rgba(255,255,255,0.6);
+        }
+        
+        /* Additional styles for new sections */
+        .content-section {
+            background: linear-gradient(to bottom, #0E3B43, #0A2A30);
+            padding: 15px;
+        }
+        .section-content {
+            background-color: rgba(0,0,0,0.3);
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            padding: 20px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .section-content:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+        
+        /* Mood Board Styles */
+        .mood-board {
+            text-align: center;
+        }
+        .mood-emoji {
+            font-size: 50px;
+            margin: 10px 0;
+            text-shadow: 0 0 15px rgba(255,215,0,0.5);
+            animation: pulse 2s infinite ease-in-out;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        .mood-quote {
+            font-size: 18px;
+            font-style: italic;
+            line-height: 1.4;
+            margin: 15px 0;
+            color: var(--light-color);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        /* Player Highlight Styles */
+        .player-highlight {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+            padding: 10px;
+        }
+        @media (min-width: 601px) {
+            .player-highlight {
+                padding: 20px;
+            }
+        }
+        
+        /* Section subtitles */
+        .section-subtitle {
+            font-size: 14px;
+            font-style: italic;
+            margin-top: 5px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        /* Bad Man specific styles */
+        .bad-man-container .section-header {
+            background: linear-gradient(to bottom, #8B0000, #550000);
+            border-bottom: 4px solid #FF4500;
+        }
+        
+        .bad-man-container .section-content {
+            background-color: rgba(139, 0, 0, 0.2);
+            border: 2px solid #FF4500;
+        }
+        
+        .bad-man-container .player-name {
+            color: #FF4500;
+        }
+        
+        .bad-man-container .player-link {
+            color: #FF6347;
+        }
+        
+        .bad-man-container .player-link:hover {
+            color: #FF8C69;
+        }
+        
+        /* Bad Men Tracking specific styles */
+        .bad-men-tracking-container .section-header {
+            background: linear-gradient(to bottom, #8B0000, #550000);
+            border-bottom: 4px solid #FF4500;
+        }
+        
+        .bad-men-tracking-container .section-content {
+            background-color: rgba(139, 0, 0, 0.2);
+            border: 2px solid #FF4500;
+        }
+        
+        .bad-men-tracking-container th {
+            color: #FF4500;
+            background-color: rgba(139, 0, 0, 0.4);
+        }
+        
+        .bad-men-tracking-container .week-number {
+            color: #FF6347;
+        }
+        
+        .bad-men-tracking-container tr:hover {
+            background-color: rgba(139, 0, 0, 0.3);
+        }
+        
+        /* Team MVP specific styles */
+        .team-mvp-container .section-header {
+            background: linear-gradient(to bottom, #004D40, #00251A);
+            border-bottom: 4px solid #00E676;
+        }
+        
+        .team-mvp-container .section-content {
+            background-color: rgba(0, 77, 64, 0.2);
+            border: 2px solid #00E676;
+        }
+        
+        .team-mvp-container .player-name {
+            color: #00E676;
+            text-shadow: 0 0 10px rgba(0, 230, 118, 0.3);
+        }
+        
+        .team-mvp-container .player-link {
+            color: #00BFA5;
+        }
+        
+        .team-mvp-container .player-link:hover {
+            color: #64FFDA;
+        }
+        
+        /* Team MVP Tracking specific styles */
+        .team-mvp-tracking-container .section-header {
+            background: linear-gradient(to bottom, #004D40, #00251A);
+            border-bottom: 4px solid #00E676;
+        }
+        
+        .team-mvp-tracking-container .section-content {
+            background-color: rgba(0, 77, 64, 0.2);
+            border: 2px solid #00E676;
+        }
+        
+        .team-mvp-tracking-container th {
+            color: #00E676;
+            background-color: rgba(0, 77, 64, 0.4);
+        }
+        
+        .team-mvp-tracking-container .week-number {
+            color: #00BFA5;
+        }
+        
+        .team-mvp-tracking-container tr:hover {
+            background-color: rgba(0, 77, 64, 0.3);
+        }
+        .player-info {
+            flex: 1;
+        }
+        .player-name {
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        .player-details {
+            font-size: 18px;
+            line-height: 1.4;
+        }
+        .player-points {
+            font-size: 20px;
+            font-weight: bold;
+            margin: 10px 0;
+            color: var(--light-color);
+            background-color: rgba(0,0,0,0.5);
+            padding: 5px 15px;
+            border-radius: 5px;
+            display: inline-block;
+        }
+        .player-link {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.2s ease;
+        }
+        .player-link:hover {
+            text-decoration: underline;
+            color: var(--light-color);
+        }
+        
+        /* Tracking Table Styles */
+        .tracking-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        .tracking-table th, .tracking-table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .tracking-table th {
+            background-color: rgba(0,0,0,0.5);
+            color: var(--accent-color);
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .tracking-table tr:hover {
+            background-color: rgba(255,255,255,0.05);
+        }
+        .tracking-table .week-number {
+            text-align: center;
+            font-weight: bold;
+            color: var(--accent-color);
+            width: 60px;
+        }
+        .tracking-table         .player-points-col {
+            text-align: right;
+            font-weight: bold;
+        }
+        
+        /* League Information Styles */
+        .league-info-container .section-header {
+            background: linear-gradient(to bottom, #0A3161, #041836);
+            border-bottom: 4px solid var(--accent-color);
+        }
+        
+        .league-info-container .section-content {
+            background-color: rgba(10, 49, 97, 0.2);
+            border: 2px solid var(--accent-color);
+        }
+        
+        .league-rules {
+            margin: 10px 0;
+            padding-left: 25px;
+        }
+        
+        .league-rules li {
+            margin-bottom: 12px;
+            font-size: 18px;
+            line-height: 1.5;
+            color: var(--light-color);
+            position: relative;
+        }
+        
+        .league-rules li::before {
+            content: "•";
+            color: var(--accent-color);
+            font-weight: bold;
+            font-size: 20px;
+            position: absolute;
+            left: -20px;
+        }
+        
+        /* Desktop specific styles */
+        @media (min-width: 601px) {
+            .team-1 {
+                max-width: 95%;
+                justify-content: flex-start;
+            }
+            .team-2 {
+                max-width: 95%;
+                justify-content: flex-end;
+            }
+            .winning-score {
+                color: var(--accent-color);
+                font-weight: 700;
+                text-shadow: 0 0 10px rgba(255,215,0,0.6);
+            }
+            .score-separator {
+                color: var(--light-color);
+                opacity: 0.7;
+                margin: 0 5px;
+            }
+            .mobile-score-display {
+                display: none;
+            }
+            .sections-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 30px;
+            }
+        }
+        
+        /* Mobile specific styles */
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            
+            .matchup {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto auto auto;
+                text-align: center;
+                gap: 10px;
+                padding: 12px 8px;
+                border-left-width: 6px;
+            }
+            
+            .team-1, .team-2 {
+                text-align: center;
+                justify-content: center;
+                max-width: 100%;
+                font-size: 18px;
+                padding: 8px 5px;
+            }
+            
+            .team-2 {
+                order: 3;
+            }
+            
+            .score {
+                order: 2;
+                margin: 0 auto;
+                padding: 10px 0;
+                flex-direction: column;
+                height: auto;
+                width: 100%;
+                overflow: hidden;
+            }
+            
+            .desktop-score-display {
+                display: none;
+            }
+            
+            .mobile-score-display {
+                width: 100%;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 0;
+                position: relative;
+                overflow: hidden;
+                border-radius: 4px;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            }
+            
+            .team-score-box {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding: 5px 2px;
+                border-radius: 0;
+                width: 100%;
+            }
+            
+            .team-score-box.team1 {
+                background-color: rgba(0,0,0,0.3);
+                border-right: 1px solid var(--border-color);
+            }
+            
+            .team-score-box.team2 {
+                background-color: rgba(0,0,0,0.3);
+            }
+            
+            .team-label {
+                font-size: 12px;
+                opacity: 0.9;
+                margin-bottom: 5px;
+                text-transform: uppercase;
+            }
+            
+            .team-abbr {
+                font-weight: bold;
+                color: var(--accent-color);
+            }
+            
+            .winning-score-mobile {
+                color: var(--accent-color);
+                font-weight: 700;
+                text-shadow: 0 0 10px rgba(255,215,0,0.6);
+                animation: scorePulse 1.5s infinite ease-in-out;
+            }
+            
+            @keyframes scorePulse {
+                0% { transform: scale(1); }
+                50% { transform: scale(1.05); }
+                100% { transform: scale(1); }
+            }
+            
+            .sections-grid {
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            h1 {
+                font-size: 22px;
+            }
+            
+            h2 {
+                font-size: 18px;
+            }
+            
+            .update-date,             .team-record {
+                font-size: 14px;
+            }
+            
+            
+            .top-nav {
+                padding: 10px 0 5px 0;
+            }
+            
+            .nav-links {
+                flex-direction: row;
+                flex-wrap: wrap;
+                gap: 10px;
+                justify-content: center;
+            }
+            
+            .nav-links a {
+                font-size: 16px;
+                padding: 6px 12px;
+            }
+            
+            .league-info {
+                padding: 5px;
+            }
+            
+            .league-rules {
+                margin: 8px 0;
+                padding-left: 20px;
+            }
+            
+            .league-rules li {
+                margin-bottom: 6px;
+                font-size: 14px;
+                line-height: 1.3;
+            }
+            
+            .section-subtitle {
+                font-size: 12px;
+            }
+            
+            .player-name {
+                font-size: 22px;
+            }
+            
+            .player-points {
+                font-size: 18px;
+            }
+            
+            .tracking-table th, .tracking-table td {
+                padding: 8px 5px;
+                font-size: 14px;
+            }
+            
+            .content-container {
+                margin-bottom: 20px;
+            }
+            
+            .scoreboard-container, .content-container {
+                border-width: 4px;
+            }
+            
+            .section-header {
+                padding: 12px 10px;
+            }
+            
+            .content-section {
+                padding: 10px;
+            }
+            
+            .section-content {
+                padding: 15px 10px;
+            }
+            
+            .mood-emoji {
+                font-size: 40px;
+            }
+            
+            .mood-quote {
+                font-size: 16px;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Top Navigation Bar -->
     <div class="top-nav">
         <div class="nav-links">
-            <a href="index.html">Scoreboard</a>
-            <a href="roster.html" class="active">Team Roster</a>
+            <a href="index.html" class="active">Scoreboard</a>
+            <a href="roster.html">Team Roster</a>
         </div>
     </div>
 
-    <div class="header-container">
-        <div class="header">
-            <h1>WAR What Is It Good For - Team Roster</h1>
-            <div class="update-date" id="update-date">Updated on March 28, 2025</div>
-        </div>
-    </div>
-    
-    <!-- Position Players Section -->
-    <div class="content-container">
-        <div class="section-header">
-            <h2>Position Players</h2>
-            <div class="section-subtitle">Our lineup and bench</div>
-        </div>
-        <div class="content-section">
-            <div class="section-content">
-                <table class="roster-table" id="hitters-table">
-                    <thead>
-                        <tr>
-                            <th>Position</th>
-                            <th>Player</th>
-                            <th class="vote-header">Fan Votes</th>
-                        </tr>
-                    </thead>
-                    <tbody id="hitters-body">
-                        <!-- Hitters will be inserted dynamically -->
-                    </tbody>
-                </table>
+    <div class="scoreboard-container">
+        <div class="scoreboard-frame">
+            <div class="scoreboard-header">
+                <h1>WAR What Is It Good For Weekly Match-Ups</h1>
+                <div class="update-date" id="update-date">Updated on March 28, 2025</div>
+                <div class="team-record">Season Record: <span class="record-value" id="season-record">0 - 0</span></div>
+                <div class="league-info">
+                    <ul class="league-rules">
+                        <li>Doubleheader games each week</li>
+                        <li>Most points by the last game Sunday wins each game</li>
+                        <li>Scores and information updated each morning by Mr. Manager</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div id="scoreboard" class="matchups">
+                <!-- Matchups will be dynamically inserted here -->
             </div>
         </div>
     </div>
     
-    <!-- Pitchers Section -->
+    <!-- Mood Board Section -->
     <div class="content-container">
         <div class="section-header">
-            <h2>Pitching Staff</h2>
-            <div class="section-subtitle">Our elite rotation and bullpen</div>
+            <h2>Mr. Manager's Mood Board</h2>
         </div>
         <div class="content-section">
-            <div class="section-content">
-                <table class="roster-table" id="pitchers-table">
-                    <thead>
-                        <tr>
-                            <th>Position</th>
-                            <th>Player</th>
-                            <th class="vote-header">Fan Votes</th>
-                        </tr>
-                    </thead>
-                    <tbody id="pitchers-body">
-                        <!-- Pitchers will be inserted dynamically -->
-                    </tbody>
-                </table>
+            <div class="section-content mood-board">
+                <div class="mood-emoji" id="mood-emoji">😰</div>
+                <div class="mood-quote" id="mood-quote">"I'M NOT WORRIED ABOUT IT."</div>
             </div>
         </div>
     </div>
     
-    <!-- Instagram Promo Section -->
+    <!-- Player Highlights Section (in grid) -->
+    <div class="sections-grid">
+        <!-- Team MVP Of The Week -->
+        <div class="content-container team-mvp-container">
+            <div class="section-header">
+                <h2>Team MVP Of The Week</h2>
+                <div class="section-subtitle">Player that has put up the most points on WWIIGF this week</div>
+            </div>
+            <div class="content-section">
+                <div class="section-content player-highlight">
+                    <div class="player-info">
+                        <div class="player-name" id="mvp-name">Paul Skenes</div>
+                        <div class="player-details">
+                            <div class="player-points" id="mvp-points">9.68 points</div>
+                            <div>
+                                <a href="https://www.baseball-reference.com/players/s/skenepa01.shtml" class="player-link" id="mvp-link" target="_blank">View Stats</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Bad Man Of the Week -->
+        <div class="content-container bad-man-container">
+            <div class="section-header">
+                <h2>Bad Man Of The Week</h2>
+                <div class="section-subtitle">Player that has put up the most points against WWIIGF this week</div>
+            </div>
+            <div class="content-section">
+                <div class="section-content player-highlight">
+                    <div class="player-info">
+                        <div class="player-name" id="bad-man-name">Cedric Mullins</div>
+                        <div class="player-details">
+                            <div class="player-points" id="bad-man-points">15 points</div>
+                            <div>
+                                <a href="https://www.baseball-reference.com/players/m/mullicd01.shtml" class="player-link" id="bad-man-link" target="_blank">View Stats</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Tracking Sections (in grid) -->
+    <div class="sections-grid">
+        <!-- Team MVP Tracking -->
+        <div class="content-container team-mvp-tracking-container">
+            <div class="section-header">
+                <h2>Team MVP Tracking</h2>
+            </div>
+            <div class="content-section">
+                <div class="section-content">
+                    <table class="tracking-table" id="mvp-table">
+                        <thead>
+                            <tr>
+                                <th>Week</th>
+                                <th>Player</th>
+                                <th class="player-points-col">Points</th>
+                            </tr>
+                        </thead>
+                        <tbody id="mvp-body">
+                            <!-- Table rows will be inserted dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Bad Men Tracking -->
+        <div class="content-container bad-men-tracking-container">
+            <div class="section-header">
+                <h2>Bad Men Tracking</h2>
+            </div>
+            <div class="content-section">
+                <div class="section-content">
+                    <table class="tracking-table" id="bad-men-table">
+                        <thead>
+                            <tr>
+                                <th>Week</th>
+                                <th>Player</th>
+                                <th class="player-points-col">Points</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bad-men-body">
+                            <!-- Table rows will be inserted dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Instagram Promo Section with inline styles -->
     <div class="content-container instagram-container">
         <div class="section-header" style="background: linear-gradient(to bottom, #833AB4, #5B27A0) !important; border-bottom: 4px solid #E1306C !important;">
             <h2>Follow For Updates</h2>
@@ -491,267 +1639,216 @@
     </div>
 
     <script>
-        // ********UPDATE DATE HERE********
-        const updateDate = "March 28, 2025"; // Manually update this date
-        
-        // ********UPDATE PITCHERS DATA HERE********
-        const pitchersData = [
-            { position: "SP", name: "Paul Skenes", bbRefId: "skenepa01" },
-            { position: "SP", name: "Yoshinobu Yamamoto", bbRefId: "yamamyo01" },
-            { position: "SP", name: "Sandy Alcantara", bbRefId: "alcansa01" },
-            { position: "SP", name: "Bryan Woo", bbRefId: "woobr01" },
-            { position: "SP", name: "Dustin May", bbRefId: "maydu01" },
-            { position: "SP", name: "Chris Bassitt", bbRefId: "bassich01" },
-            { position: "SP", name: "Walker Buehler", bbRefId: "buehlwa01" },
-            { position: "RP", name: "Alexis Díaz", bbRefId: "diazal02" },
-            { position: "RP", name: "Ryan Walker", bbRefId: "walkery01" }
+        // ********UPDATE MATCH-UP DATA HERE********
+        const matchupsData = [
+            {
+                team1: {
+                    name: "WAR What Is It Good For",
+                    score: 30.21
+                },
+                team2: {
+                    name: "What's that Snell (Nishi)",
+                    score: 60.77
+                }
+            },
+            {
+                team1: {
+                    name: "WAR What Is It Good For",
+                    score: 30.21
+                },
+                team2: {
+                    name: "Rockford Peaches",
+                    score: 34.18
+                }
+            }
         ];
         
-        // ********UPDATE HITTERS DATA HERE********
-        const hittersData = [
-            { position: "C", name: "J.T. Realmuto", bbRefId: "realmjt01" },
-            { position: "1B", name: "Cody Bellinger", bbRefId: "bellico01" },
-            { position: "2B", name: "Ozzie Albies", bbRefId: "albieoz01" },
-            { position: "SS", name: "Francisco Lindor", bbRefId: "lindofr01" },
-            { position: "3B", name: "Jake Burger", bbRefId: "burgeja01" },
-            { position: "OF", name: "Byron Buxton", bbRefId: "buxtoby01" },
-            { position: "OF", name: "Lawrence Butler", bbRefId: "butlela01" },
-            { position: "OF", name: "James Wood", bbRefId: "woodja01" },
-            { position: "DH", name: "Dansby Swanson", bbRefId: "swansda01" },
-            { position: "BENCH", name: "Joey Bart", bbRefId: "bartjo01" },
-            { position: "BENCH", name: "Paul Goldschmidt", bbRefId: "goldspa01" },
-            { position: "BENCH", name: "Kristian Campbell", bbRefId: "campbkr01" },
-            { position: "BENCH", name: "Yoan Moncada", bbRefId: "moncayo01" },
-            { position: "BENCH", name: "Josh Jung", bbRefId: "jungjo01" },
-            { position: "BENCH", name: "Jung Hoo Lee", bbRefId: "leeju01" },
-            { position: "BENCH", name: "Michael Busch", bbRefId: "buschmi01" }
-        ];
-        
-        // ********UPDATE PLAYER VOTES HERE (IF NEEDED)********
-        // This is optional - votes are stored in localStorage by default
-        // You can pre-populate values if you want to start with some votes
-        const playerVotes = {
-            // Example: "skenepa01": { up: 25, down: 3 }
+        // ********UPDATE MOOD BOARD DATA HERE********
+        const moodBoardData = {
+            mood: "Nervous", // Options: Happy, Sad, Angry, Scared, Nervous
+            quote: "I'M NOT WORRIED ABOUT IT."
         };
+        
+        // ********UPDATE PLAYER HIGHLIGHTS HERE********
+        const badManData = {
+            name: "Cedric Mullins",
+            points: 15,
+            bbRefId: "mullicd01" // This is the ID from the baseball-reference URL
+        };
+        
+        const teamMVPData = {
+            name: "Paul Skenes",
+            points: 9.68,
+            bbRefId: "skenepa01" // This is the ID from the baseball-reference URL
+        };
+        
+        // ********UPDATE TRACKING DATA HERE********
+        const badMenTracking = [
+            { week: 1, name: "Cedric Mullins", points: 15 },
+            { week: 2, name: "-", points: 0 },
+            { week: 3, name: "-", points: 0 }
+        ];
+        
+        const teamMVPTracking = [
+            { week: 1, name: "Paul Skenes", points: 9.68 },
+            { week: 2, name: "-", points: 0 },
+            { week: 3, name: "-", points: 0 }
+        ];
+        
+        // ********UPDATE SEASON RECORD HERE********
+        const seasonRecord = {
+            display: "0 - 0" // Update this manually with your current season record
+        };
+        
+        // Set the update date
+        const updateDate = "March 28, 2025"; // Manually update this date
         
         // Initialize when document is ready
         document.addEventListener('DOMContentLoaded', function() {
             // Update the date
             document.getElementById('update-date').textContent = "Updated on " + updateDate;
             
-            // Render roster tables
-            renderPitchers();
-            renderHitters();
+            // Update season record from manual entry
+            document.getElementById('season-record').textContent = seasonRecord.display;
             
-            // Initialize voting system
-            initVotingSystem();
+            // Render all sections
+            renderMatchups();
+            renderMoodBoard();
+            renderPlayerHighlights();
+            renderTrackingTables();
         });
         
-        // Render pitchers table
-        function renderPitchers() {
-            const pitchersTable = document.getElementById('pitchers-body');
-            pitchersTable.innerHTML = '';
+        // Render all matchups
+        function renderMatchups() {
+            const scoreboard = document.getElementById('scoreboard');
+            scoreboard.innerHTML = '';
             
-            pitchersData.forEach(player => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td class="position">${player.position}</td>
-                    <td>
-                        <a href="https://www.baseball-reference.com/players/${player.bbRefId.charAt(0)}/${player.bbRefId}.shtml" 
-                           class="player-link" target="_blank">${player.name}</a>
-                    </td>
-                    <td>
-                        <div class="vote-controls" data-player="${player.bbRefId}">
-                            <button class="vote-button vote-up" data-vote="up" aria-label="Thumbs up" title="I like this player">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
-                                </svg>
-                            </button>
-                            <div class="vote-count">0</div>
-                            <button class="vote-button vote-down" data-vote="down" aria-label="Thumbs down" title="I don't like this player">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-3"></path>
-                                </svg>
-                            </button>
-                        </div>
-                    </td>
-                `;
-                pitchersTable.appendChild(row);
+            matchupsData.forEach(data => {
+                scoreboard.appendChild(createMatchupElement(data));
             });
         }
         
-        // Render hitters table
-        function renderHitters() {
-            const hittersTable = document.getElementById('hitters-body');
-            hittersTable.innerHTML = '';
+        // Create a matchup element
+        function createMatchupElement(data) {
+            const matchup = document.createElement('div');
+            matchup.className = 'matchup';
             
-            hittersData.forEach(player => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td class="position">${player.position}</td>
-                    <td>
-                        <a href="https://www.baseball-reference.com/players/${player.bbRefId.charAt(0)}/${player.bbRefId}.shtml" 
-                           class="player-link" target="_blank">${player.name}</a>
-                    </td>
-                    <td>
-                        <div class="vote-controls" data-player="${player.bbRefId}">
-                            <button class="vote-button vote-up" data-vote="up" aria-label="Thumbs up" title="I like this player">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
-                                </svg>
-                            </button>
-                            <div class="vote-count">0</div>
-                            <button class="vote-button vote-down" data-vote="down" aria-label="Thumbs down" title="I don't like this player">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-3"></path>
-                                </svg>
-                            </button>
-                        </div>
-                    </td>
-                `;
-                hittersTable.appendChild(row);
-            });
-        }
-        
-        // Initialize the voting system
-        function initVotingSystem() {
-            // Load saved votes from localStorage
-            loadVotes();
+            // Determine winner
+            const team1Wins = data.team1.score > data.team2.score;
+            const team2Wins = data.team2.score > data.team1.score;
             
-            // Add event listeners to all vote buttons
-            document.querySelectorAll('.vote-button').forEach(button => {
-                button.addEventListener('click', handleVote);
-            });
-        }
-        
-        // Handle vote clicks
-        function handleVote(event) {
-            const button = event.currentTarget;
-            const voteType = button.dataset.vote; // 'up' or 'down'
-            const playerControl = button.closest('.vote-controls');
-            const playerId = playerControl.dataset.player;
+            // Team 1
+            const team1 = document.createElement('div');
+            team1.className = 'team-name team-1';
+            team1.innerHTML = `
+                <img src="https://i.imgur.com/gPSYa0w.png" alt="WAR Logo" class="team-logo">
+                ${data.team1.name}
+            `;
             
-            // Get voted players from this session
-            const votedPlayers = JSON.parse(localStorage.getItem('votedPlayers') || '[]');
+            // Create the desktop score display
+            const scoreDesktop = document.createElement('div');
+            scoreDesktop.className = 'score desktop-score-display';
             
-            // Check if player already voted on in this session
-            if (votedPlayers.includes(playerId)) {
-                alert('You have already voted on this player!');
-                return;
-            }
-            
-            // Update vote count in storage
-            updateVoteCount(playerId, voteType);
-            
-            // Add player to voted list for this session
-            votedPlayers.push(playerId);
-            localStorage.setItem('votedPlayers', JSON.stringify(votedPlayers));
-            
-            // Update UI
-            updateVoteUI(playerId);
-            
-            // Mark buttons as voted
-            const upButton = playerControl.querySelector('.vote-up');
-            const downButton = playerControl.querySelector('.vote-down');
-            const voteCountEl = playerControl.querySelector('.vote-count');
-            
-            // Add animation to vote count
-            voteCountEl.classList.add('vote-animation');
-            setTimeout(() => {
-                voteCountEl.classList.remove('vote-animation');
-            }, 500);
-            
-            if (voteType === 'up') {
-                upButton.classList.add('active');
-                upButton.disabled = true;
-                downButton.classList.add('vote-disabled');
-                downButton.disabled = true;
+            // Format the desktop score with winning highlight
+            let scoreDesktopHtml;
+            if (team1Wins) {
+                scoreDesktopHtml = `<span class="winning-score">${data.team1.score.toFixed(2)}</span><span class="score-separator">-</span>${data.team2.score.toFixed(2)}`;
+            } else if (team2Wins) {
+                scoreDesktopHtml = `${data.team1.score.toFixed(2)}<span class="score-separator">-</span><span class="winning-score">${data.team2.score.toFixed(2)}</span>`;
             } else {
-                downButton.classList.add('active');
-                downButton.disabled = true;
-                upButton.classList.add('vote-disabled');
-                upButton.disabled = true;
-            }
-        }
-        
-        // Update vote count in storage
-        function updateVoteCount(playerId, voteType) {
-            // Get current votes
-            let votes = JSON.parse(localStorage.getItem('playerVotes') || '{}');
-            
-            // Initialize player if not exists
-            if (!votes[playerId]) {
-                votes[playerId] = { up: 0, down: 0 };
+                scoreDesktopHtml = `${data.team1.score.toFixed(2)}<span class="score-separator">-</span>${data.team2.score.toFixed(2)}`;
             }
             
-            // Increment vote
-            votes[playerId][voteType]++;
+            scoreDesktop.innerHTML = scoreDesktopHtml;
             
-            // Save back to storage
-            localStorage.setItem('playerVotes', JSON.stringify(votes));
+            // Create the mobile score display
+            const scoreMobile = document.createElement('div');
+            scoreMobile.className = 'score mobile-score-display';
+            
+            // Get team abbreviation for the opponent
+            const opponentAbbr = data.team2.name.split(' ')[0];
+            
+            // Format the mobile score with separate boxes for each team
+            scoreMobile.innerHTML = `
+                <div class="team-score-box team1">
+                    <div class="team-label"><span class="team-abbr">WAR</span></div>
+                    <div class="${team1Wins ? 'winning-score-mobile' : ''}">${data.team1.score.toFixed(2)}</div>
+                </div>
+                <div class="team-score-box team2">
+                    <div class="team-label"><span class="team-abbr">${opponentAbbr}</span></div>
+                    <div class="${team2Wins ? 'winning-score-mobile' : ''}">${data.team2.score.toFixed(2)}</div>
+                </div>
+            `;
+            
+            // Team 2
+            const team2 = document.createElement('div');
+            team2.className = 'team-name team-2';
+            team2.textContent = data.team2.name;
+            
+            // Add all elements to the matchup
+            matchup.appendChild(team1);
+            matchup.appendChild(scoreDesktop);
+            matchup.appendChild(scoreMobile);
+            matchup.appendChild(team2);
+            
+            return matchup;
         }
         
-        // Load all votes from storage and update UI
-        function loadVotes() {
-            // Get votes from localStorage
-            const storedVotes = JSON.parse(localStorage.getItem('playerVotes') || '{}');
+        // Render mood board
+        function renderMoodBoard() {
+            const emojiMap = {
+                "Happy": "😄",
+                "Sad": "😢",
+                "Angry": "😡",
+                "Scared": "😨",
+                "Nervous": "😰"
+            };
             
-            // Merge with any pre-defined votes
-            const votes = { ...playerVotes, ...storedVotes };
-            
-            // Update localStorage with merged votes
-            localStorage.setItem('playerVotes', JSON.stringify(votes));
-            
-            // Update UI for all players
-            Object.keys(votes).forEach(playerId => {
-                updateVoteUI(playerId);
-            });
-            
-            // Check if player voted in this session
-            const votedPlayers = JSON.parse(localStorage.getItem('votedPlayers') || '[]');
-            votedPlayers.forEach(playerId => {
-                const playerControl = document.querySelector(`.vote-controls[data-player="${playerId}"]`);
-                if (playerControl) {
-                    const upButton = playerControl.querySelector('.vote-up');
-                    const downButton = playerControl.querySelector('.vote-down');
-                    
-                    // Disable both buttons
-                    upButton.disabled = true;
-                    downButton.disabled = true;
-                    upButton.classList.add('vote-disabled');
-                    downButton.classList.add('vote-disabled');
-                    
-                    // Show which one was chosen
-                    const votes = JSON.parse(localStorage.getItem('playerVotes') || '{}');
-                    if (votes[playerId]) {
-                        if (votes[playerId].up > 0) {
-                            upButton.classList.add('active');
-                            upButton.classList.remove('vote-disabled');
-                        }
-                        if (votes[playerId].down > 0) {
-                            downButton.classList.add('active');
-                            downButton.classList.remove('vote-disabled');
-                        }
-                    }
-                }
-            });
+            document.getElementById('mood-emoji').textContent = emojiMap[moodBoardData.mood] || "😐";
+            document.getElementById('mood-quote').textContent = moodBoardData.quote;
         }
         
-        // Update the UI for a specific player
-        function updateVoteUI(playerId) {
-            const votes = JSON.parse(localStorage.getItem('playerVotes') || '{}');
-            const playerControls = document.querySelectorAll(`.vote-controls[data-player="${playerId}"]`);
+        // Render player highlights
+        function renderPlayerHighlights() {
+            // Bad Man of the Week
+            document.getElementById('bad-man-name').textContent = badManData.name;
+            document.getElementById('bad-man-points').textContent = `${badManData.points} points`;
+            document.getElementById('bad-man-link').href = `https://www.baseball-reference.com/players/${badManData.bbRefId.charAt(0)}/${badManData.bbRefId}.shtml`;
             
-            playerControls.forEach(control => {
-                const voteTotal = control.querySelector('.vote-count');
-                const playerVotes = votes[playerId] || { up: 0, down: 0 };
-                const total = playerVotes.up - playerVotes.down;
-                
-                // Update total count
-                voteTotal.textContent = total > 0 ? `+${total}` : total;
-                
-                // Add color based on vote value
-                voteTotal.style.color = total > 0 ? '#4CAF50' : total < 0 ? '#F44336' : '';
+            // Team MVP of the Week
+            document.getElementById('mvp-name').textContent = teamMVPData.name;
+            document.getElementById('mvp-points').textContent = `${teamMVPData.points} points`;
+            document.getElementById('mvp-link').href = `https://www.baseball-reference.com/players/${teamMVPData.bbRefId.charAt(0)}/${teamMVPData.bbRefId}.shtml`;
+        }
+        
+        // Render tracking tables
+        function renderTrackingTables() {
+            // Bad Men Tracking
+            const badMenTable = document.getElementById('bad-men-body');
+            badMenTable.innerHTML = '';
+            
+            badMenTracking.forEach(player => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="week-number">Week ${player.week}</td>
+                    <td>${player.name}</td>
+                    <td class="player-points-col">${player.points}</td>
+                `;
+                badMenTable.appendChild(row);
+            });
+            
+            // Team MVP Tracking
+            const mvpTable = document.getElementById('mvp-body');
+            mvpTable.innerHTML = '';
+            
+            teamMVPTracking.forEach(player => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="week-number">Week ${player.week}</td>
+                    <td>${player.name}</td>
+                    <td class="player-points-col">${player.points}</td>
+                `;
+                mvpTable.appendChild(row);
             });
         }
     </script>
