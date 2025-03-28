@@ -1,4 +1,11 @@
-<!DOCTYPE html>
+.player-highlight {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+            padding: 10px;
+        }<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -149,6 +156,15 @@
             text-align: left;
             border-bottom: 1px solid var(--border-color);
         }
+        
+        .roster-table th.vote-header {
+            width: 120px;
+            text-align: center;
+        }
+        
+        .roster-table td:last-child {
+            text-align: center;
+        }
         .roster-table th {
             background-color: rgba(0,0,0,0.5);
             color: var(--accent-color);
@@ -275,6 +291,7 @@
                         <tr>
                             <th>Position</th>
                             <th>Player</th>
+                            <th class="vote-header">Fan Votes</th>
                         </tr>
                     </thead>
                     <tbody id="hitters-body">
@@ -298,6 +315,7 @@
                         <tr>
                             <th>Position</th>
                             <th>Player</th>
+                            <th class="vote-header">Fan Votes</th>
                         </tr>
                     </thead>
                     <tbody id="pitchers-body">
@@ -364,6 +382,13 @@
             { position: "BENCH", name: "Michael Busch", bbRefId: "buschmi01" }
         ];
         
+        // ********UPDATE PLAYER VOTES HERE (IF NEEDED)********
+        // This is optional - votes are stored in localStorage by default
+        // You can pre-populate values if you want to start with some votes
+        const playerVotes = {
+            // Example: "skenepa01": { up: 25, down: 3 }
+        };
+        
         // Initialize when document is ready
         document.addEventListener('DOMContentLoaded', function() {
             // Update the date
@@ -372,6 +397,9 @@
             // Render roster tables
             renderPitchers();
             renderHitters();
+            
+            // Initialize voting system
+            initVotingSystem();
         });
         
         // Render pitchers table
@@ -386,6 +414,21 @@
                     <td>
                         <a href="https://www.baseball-reference.com/players/${player.bbRefId.charAt(0)}/${player.bbRefId}.shtml" 
                            class="player-link" target="_blank">${player.name}</a>
+                    </td>
+                    <td>
+                        <div class="vote-controls" data-player="${player.bbRefId}">
+                            <button class="vote-button vote-up" data-vote="up" aria-label="Thumbs up" title="I like this player">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
+                                </svg>
+                            </button>
+                            <div class="vote-count">0</div>
+                            <button class="vote-button vote-down" data-vote="down" aria-label="Thumbs down" title="I don't like this player">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-3"></path>
+                                </svg>
+                            </button>
+                        </div>
                     </td>
                 `;
                 pitchersTable.appendChild(row);
@@ -405,8 +448,158 @@
                         <a href="https://www.baseball-reference.com/players/${player.bbRefId.charAt(0)}/${player.bbRefId}.shtml" 
                            class="player-link" target="_blank">${player.name}</a>
                     </td>
+                    <td>
+                        <div class="vote-controls" data-player="${player.bbRefId}">
+                            <button class="vote-button vote-up" data-vote="up" aria-label="Thumbs up" title="I like this player">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
+                                </svg>
+                            </button>
+                            <div class="vote-count">0</div>
+                            <button class="vote-button vote-down" data-vote="down" aria-label="Thumbs down" title="I don't like this player">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-3"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </td>
                 `;
                 hittersTable.appendChild(row);
+            });
+        }
+        
+        // Initialize the voting system
+        function initVotingSystem() {
+            // Load saved votes from localStorage
+            loadVotes();
+            
+            // Add event listeners to all vote buttons
+            document.querySelectorAll('.vote-button').forEach(button => {
+                button.addEventListener('click', handleVote);
+            });
+        }
+        
+        // Handle vote clicks
+        function handleVote(event) {
+            const button = event.currentTarget;
+            const voteType = button.dataset.vote; // 'up' or 'down'
+            const playerControl = button.closest('.vote-controls');
+            const playerId = playerControl.dataset.player;
+            
+            // Get voted players from this session
+            const votedPlayers = JSON.parse(localStorage.getItem('votedPlayers') || '[]');
+            
+            // Check if player already voted on in this session
+            if (votedPlayers.includes(playerId)) {
+                alert('You have already voted on this player!');
+                return;
+            }
+            
+            // Update vote count in storage
+            updateVoteCount(playerId, voteType);
+            
+            // Add player to voted list for this session
+            votedPlayers.push(playerId);
+            localStorage.setItem('votedPlayers', JSON.stringify(votedPlayers));
+            
+            // Update UI
+            updateVoteUI(playerId);
+            
+            // Mark buttons as voted
+            const upButton = playerControl.querySelector('.vote-up');
+            const downButton = playerControl.querySelector('.vote-down');
+            
+            if (voteType === 'up') {
+                upButton.classList.add('active');
+                upButton.disabled = true;
+                downButton.classList.add('vote-disabled');
+                downButton.disabled = true;
+            } else {
+                downButton.classList.add('active');
+                downButton.disabled = true;
+                upButton.classList.add('vote-disabled');
+                upButton.disabled = true;
+            }
+        }
+        
+        // Update vote count in storage
+        function updateVoteCount(playerId, voteType) {
+            // Get current votes
+            let votes = JSON.parse(localStorage.getItem('playerVotes') || '{}');
+            
+            // Initialize player if not exists
+            if (!votes[playerId]) {
+                votes[playerId] = { up: 0, down: 0 };
+            }
+            
+            // Increment vote
+            votes[playerId][voteType]++;
+            
+            // Save back to storage
+            localStorage.setItem('playerVotes', JSON.stringify(votes));
+        }
+        
+        // Load all votes from storage and update UI
+        function loadVotes() {
+            // Get votes from localStorage
+            const storedVotes = JSON.parse(localStorage.getItem('playerVotes') || '{}');
+            
+            // Merge with any pre-defined votes
+            const votes = { ...playerVotes, ...storedVotes };
+            
+            // Update localStorage with merged votes
+            localStorage.setItem('playerVotes', JSON.stringify(votes));
+            
+            // Update UI for all players
+            Object.keys(votes).forEach(playerId => {
+                updateVoteUI(playerId);
+            });
+            
+            // Check if player voted in this session
+            const votedPlayers = JSON.parse(localStorage.getItem('votedPlayers') || '[]');
+            votedPlayers.forEach(playerId => {
+                const playerControl = document.querySelector(`.vote-controls[data-player="${playerId}"]`);
+                if (playerControl) {
+                    const upButton = playerControl.querySelector('.vote-up');
+                    const downButton = playerControl.querySelector('.vote-down');
+                    
+                    // Disable both buttons
+                    upButton.disabled = true;
+                    downButton.disabled = true;
+                    upButton.classList.add('vote-disabled');
+                    downButton.classList.add('vote-disabled');
+                    
+                    // Show which one was chosen
+                    const votes = JSON.parse(localStorage.getItem('playerVotes') || '{}');
+                    if (votes[playerId]) {
+                        if (votes[playerId].up > 0) {
+                            upButton.classList.add('active');
+                            upButton.classList.remove('vote-disabled');
+                        }
+                        if (votes[playerId].down > 0) {
+                            downButton.classList.add('active');
+                            downButton.classList.remove('vote-disabled');
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Update the UI for a specific player
+        function updateVoteUI(playerId) {
+            const votes = JSON.parse(localStorage.getItem('playerVotes') || '{}');
+            const playerControls = document.querySelectorAll(`.vote-controls[data-player="${playerId}"]`);
+            
+            playerControls.forEach(control => {
+                const voteTotal = control.querySelector('.vote-count');
+                const playerVotes = votes[playerId] || { up: 0, down: 0 };
+                const total = playerVotes.up - playerVotes.down;
+                
+                // Update total count
+                voteTotal.textContent = total > 0 ? `+${total}` : total;
+                
+                // Add color based on vote value
+                voteTotal.style.color = total > 0 ? '#4CAF50' : total < 0 ? '#F44336' : '';
             });
         }
     </script>
