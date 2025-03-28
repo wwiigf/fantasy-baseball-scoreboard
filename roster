@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>WAR What Is It Good For - Team Roster</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=League+Spartan:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #0E3B43;
+            --secondary-color: #CF0A2C;
+            --accent-color: #FFD700;
+            --dark-color: #121212;
+            --light-color: #FFFFFF;
+            --border-color: #4A4A4A;
+            --instagram-purple: #833AB4;
+            --instagram-pink: #E1306C;
+            --instagram-orange: #FCAF45;
+        }
+        body {
+            font-family: 'Roboto Condensed', sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #121212 0%, #1E293B 100%);
+            background-attachment: fixed;
+            color: var(--light-color);
+        }
+        .header-container, .content-container {
+            background-color: var(--primary-color);
+            border: 6px solid var(--accent-color);
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6), 0 0 20px rgba(255,215,0,0.3);
+            overflow: hidden;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        .header, .section-header {
+            background: linear-gradient(to bottom, #0A3161, #041836);
+            color: var(--light-color);
+            text-align: center;
+            padding: 20px 15px;
+            border-bottom: 4px solid var(--accent-color);
+            position: relative;
+            overflow: hidden;
+        }
+        .section-header {
+            padding: 15px;
+            margin-bottom: 0;
+        }
+        .header::after, .section-header::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, rgba(255,255,255,0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        h1, h2 {
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        h1 {
+            font-size: 28px;
+        }
+        h2 {
+            font-size: 22px;
+        }
+        .update-date {
+            font-size: 16px;
+            margin-top: 10px;
+            font-style: italic;
+            opacity: 0.9;
+        }
+        
+        /* Navigation styles */
+        .nav-links {
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        .nav-links a {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 18px;
+            padding: 5px 15px;
+            border-radius: 5px;
+            transition: all 0.2s ease;
+            background-color: rgba(0,0,0,0.3);
+        }
+        .nav-links a:hover {
+            background-color: rgba(255,215,0,0.2);
+            transform: translateY(-2px);
+        }
+        .nav-links a.active {
+            background-color: rgba(255,215,0,0.3);
+            box-shadow: 0 0 10px rgba(255,215,0,0.3);
+        }
+        
+        /* Content section styles */
+        .content-section {
+            background: linear-gradient(to bottom, #0E3B43, #0A2A30);
+            padding: 15px;
+        }
+        .section-content {
+            background-color: rgba(0,0,0,0.3);
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            padding: 20px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .section-content:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+        
+        /* Section subtitles */
+        .section-subtitle {
+            font-size: 14px;
+            font-style: italic;
+            margin-top: 5px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        /* Roster table styles */
+        .roster-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        .roster-table th, .roster-table td {
+            padding: 12px 10px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .roster-table th {
+            background-color: rgba(0,0,0,0.5);
+            color: var(--accent-color);
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .roster-table tr:hover {
+            background-color: rgba(255,255,255,0.05);
+        }
+        .roster-table .position {
+            text-align: center;
+            font-weight: bold;
+            width: 60px;
+        }
+        .roster-table .player-stats {
+            text-align: right;
+            font-weight: bold;
+        }
+        
+        /* Roster player link */
+        .player-link {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.2s ease;
+        }
+        .player-link:hover {
+            text-decoration: underline;
+            color: var(--light-color);
+        }
+        
+        /* Position group styles */
+        .position-header {
+            background-color: rgba(0,0,0,0.3);
+            padding: 8px 15px;
+            margin: 20px 0 10px 0;
+            border-radius: 5px;
+            color: var(--accent-color);
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        /* Footer styles */
+        .footer {
+            text-align: center;
+            font-size: 12px;
+            margin-top: 20px;
+            color: rgba(255,255,255,0.6);
+        }
+        
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            h1 {
+                font-size: 22px;
+            }
+            
+            h2 {
+                font-size: 18px;
+            }
+            
+            .update-date {
+                font-size: 14px;
+            }
+            
+            .nav-links {
+                flex-direction: column;
+                gap: 10px;
+                align-items: center;
+            }
+            
+            .nav-links a {
+                width: 80%;
+                text-align: center;
+                padding: 8px 0;
+            }
+            
+            .roster-table th, .roster-table td {
+                padding: 8px 5px;
+                font-size: 14px;
+            }
+            
+            .section-content {
+                padding: 15px 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header-container">
+        <div class="header">
+            <h1>WAR What Is It Good For - Team Roster</h1>
+            <div class="update-date" id="update-date">Updated on March 28, 2025</div>
+            <div class="nav-links">
+                <a href="index.html">Scoreboard</a>
+                <a href="roster.html" class="active">Team Roster</a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Position Players Section -->
+    <div class="content-container">
+        <div class="section-header">
+            <h2>Position Players</h2>
+            <div class="section-subtitle">Our lineup and bench</div>
+        </div>
+        <div class="content-section">
+            <div class="section-content">
+                <table class="roster-table" id="hitters-table">
+                    <thead>
+                        <tr>
+                            <th>Position</th>
+                            <th>Player</th>
+                        </tr>
+                    </thead>
+                    <tbody id="hitters-body">
+                        <!-- Hitters will be inserted dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Pitchers Section -->
+    <div class="content-container">
+        <div class="section-header">
+            <h2>Pitching Staff</h2>
+            <div class="section-subtitle">Our elite rotation and bullpen</div>
+        </div>
+        <div class="content-section">
+            <div class="section-content">
+                <table class="roster-table" id="pitchers-table">
+                    <thead>
+                        <tr>
+                            <th>Position</th>
+                            <th>Player</th>
+                        </tr>
+                    </thead>
+                    <tbody id="pitchers-body">
+                        <!-- Pitchers will be inserted dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Instagram Promo Section -->
+    <div class="content-container instagram-container">
+        <div class="section-header" style="background: linear-gradient(to bottom, #833AB4, #5B27A0) !important; border-bottom: 4px solid #E1306C !important;">
+            <h2>Follow For Updates</h2>
+        </div>
+        <div class="content-section">
+            <div class="section-content">
+                <div class="follow-content">
+                    <p>Get real-time team updates, news, and more!</p>
+                    <p class="follow-handle">Follow us on Instagram <a href="https://www.instagram.com/war_whatisitgoodfor" target="_blank" style="color: #E1306C !important;">@war_whatisitgoodfor</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        © 2025 WAR What Is It Good For Fantasy Baseball
+    </div>
+
+    <script>
+        // ********UPDATE DATE HERE********
+        const updateDate = "March 28, 2025"; // Manually update this date
+        
+        // ********UPDATE PITCHERS DATA HERE********
+        const pitchersData = [
+            { position: "SP", name: "Paul Skenes", bbRefId: "skenepa01" },
+            { position: "SP", name: "Yoshinobu Yamamoto", bbRefId: "yamamyo01" },
+            { position: "SP", name: "Sandy Alcantara", bbRefId: "alcansa01" },
+            { position: "SP", name: "Bryan Woo", bbRefId: "woobr01" },
+            { position: "SP", name: "Dustin May", bbRefId: "maydu01" },
+            { position: "SP", name: "Chris Bassitt", bbRefId: "bassich01" },
+            { position: "SP", name: "Walker Buehler", bbRefId: "buehlwa01" },
+            { position: "RP", name: "Alexis Díaz", bbRefId: "diazal02" },
+            { position: "RP", name: "Ryan Walker", bbRefId: "walkery01" }
+        ];
+        
+        // ********UPDATE HITTERS DATA HERE********
+        const hittersData = [
+            { position: "C", name: "J.T. Realmuto", bbRefId: "realmjt01" },
+            { position: "1B", name: "Cody Bellinger", bbRefId: "bellico01" },
+            { position: "2B", name: "Ozzie Albies", bbRefId: "albieoz01" },
+            { position: "SS", name: "Francisco Lindor", bbRefId: "lindofr01" },
+            { position: "3B", name: "Jake Burger", bbRefId: "burgeja01" },
+            { position: "OF", name: "Byron Buxton", bbRefId: "buxtoby01" },
+            { position: "OF", name: "Lawrence Butler", bbRefId: "butlela01" },
+            { position: "OF", name: "James Wood", bbRefId: "woodja01" },
+            { position: "DH", name: "Dansby Swanson", bbRefId: "swansda01" },
+            { position: "BENCH", name: "Joey Bart", bbRefId: "bartjo01" },
+            { position: "BENCH", name: "Paul Goldschmidt", bbRefId: "goldspa01" },
+            { position: "BENCH", name: "Kristian Campbell", bbRefId: "campbkr01" },
+            { position: "BENCH", name: "Yoan Moncada", bbRefId: "moncayo01" },
+            { position: "BENCH", name: "Josh Jung", bbRefId: "jungjo01" },
+            { position: "BENCH", name: "Jung Hoo Lee", bbRefId: "leeju01" },
+            { position: "BENCH", name: "Michael Busch", bbRefId: "buschmi01" }
+        ];
+        
+        // Initialize when document is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            // Update the date
+            document.getElementById('update-date').textContent = "Updated on " + updateDate;
+            
+            // Render roster tables
+            renderPitchers();
+            renderHitters();
+        });
+        
+        // Render pitchers table
+        function renderPitchers() {
+            const pitchersTable = document.getElementById('pitchers-body');
+            pitchersTable.innerHTML = '';
+            
+            pitchersData.forEach(player => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="position">${player.position}</td>
+                    <td>
+                        <a href="https://www.baseball-reference.com/players/${player.bbRefId.charAt(0)}/${player.bbRefId}.shtml" 
+                           class="player-link" target="_blank">${player.name}</a>
+                    </td>
+                `;
+                pitchersTable.appendChild(row);
+            });
+        }
+        
+        // Render hitters table
+        function renderHitters() {
+            const hittersTable = document.getElementById('hitters-body');
+            hittersTable.innerHTML = '';
+            
+            hittersData.forEach(player => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="position">${player.position}</td>
+                    <td>
+                        <a href="https://www.baseball-reference.com/players/${player.bbRefId.charAt(0)}/${player.bbRefId}.shtml" 
+                           class="player-link" target="_blank">${player.name}</a>
+                    </td>
+                `;
+                hittersTable.appendChild(row);
+            });
+        }
+    </script>
+</body>
+</html>
