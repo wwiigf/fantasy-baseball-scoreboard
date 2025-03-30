@@ -238,16 +238,11 @@
     
     <!-- Video Container -->
     <div class="video-container">
-        <iframe 
-            width="560" 
-            height="315" 
-            src="https://www.youtube.com/embed/3BFTio5296w?si=4klIARJ-oDyteXUK&autoplay=1&mute=0" 
-            title="YouTube video player" 
-            frameborder="0" 
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-            referrerpolicy="strict-origin-when-cross-origin" 
-            allowfullscreen>
-        </iframe>
+        <video id="video-player" controls autoplay playsinline>
+            <!-- Updated to the correct file path -->
+            <source src="mr manager message received.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
     </div>
     
     <!-- Ticker Banner -->
@@ -258,22 +253,22 @@
     </div>
     
     <script>
-        // Force video to play at full volume
         document.addEventListener('DOMContentLoaded', function() {
-            // Try to set volume to max after a short delay
-            setTimeout(function() {
-                const iframe = document.querySelector('iframe');
-                if (iframe) {
-                    // YouTube API doesn't easily allow volume control via iframe
-                    // But we've removed the 'mute=1' parameter and added autoplay=1
-                    
-                    // Add click anywhere to unmute instructions for mobile
-                    const body = document.querySelector('body');
-                    body.addEventListener('click', function() {
-                        iframe.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}', '*');
-                    });
-                }
-            }, 1000);
+            // Auto-play video with sound
+            const video = document.getElementById('video-player');
+            
+            // Try to play the video automatically
+            try {
+                // Set volume to maximum
+                video.volume = 1.0;
+                
+                // Attempt to play immediately
+                video.play().catch(error => {
+                    console.log('Auto-play prevented:', error);
+                });
+            } catch (error) {
+                console.error('Error attempting to play video:', error);
+            }
             
             // Ticker text with more variety
             const tickerPhrases = [
