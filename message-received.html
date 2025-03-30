@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="description" content="Message received by Mr. Manager. A response is unlikely.">
+    <meta property="og:title" content="WAR What Is It Good For - Message Received">
+    <meta property="og:description" content="Message received by Mr. Manager. A response is unlikely.">
+    <meta property="og:image" content="https://wwiigf.com/favicon.png">
+    <meta property="og:url" content="https://wwiigf.com">
+    <meta property="og:type" content="website">
+    <link rel="icon" href="favicon.png" type="image/png">
+    <title>WAR What Is It Good For - Message Received</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=League+Spartan:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #0E3B43;
+            --secondary-color: #CF0A2C;
+            --accent-color: #FFD700;
+            --dark-color: #121212;
+            --light-color: #FFFFFF;
+            --border-color: #4A4A4A;
+            --danger-color: #ff3a30;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Roboto Condensed', sans-serif;
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 0;
+            background: linear-gradient(135deg, #121212 0%, #1E293B 100%);
+            background-attachment: fixed;
+            color: var(--light-color);
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+            padding-bottom: 60px; /* Space for the ticker */
+        }
+        
+        /* Top navigation bar */
+        .top-nav {
+            padding: 15px 0 5px 0;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        
+        .nav-links a {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 18px;
+            padding: 8px 18px;
+            border-radius: 5px;
+            transition: all 0.2s ease;
+            background-color: rgba(14, 59, 67, 0.9);
+            border: 2px solid var(--accent-color);
+        }
+        
+        .nav-links a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+        
+        /* Message header styles */
+        .message-header-container {
+            background: linear-gradient(to bottom, #8B0000, #550000);
+            border: 6px solid var(--danger-color);
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6), 0 0 20px rgba(255,0,0,0.3);
+            margin: 30px auto;
+            padding: 30px 20px;
+            text-align: center;
+            max-width: 90%;
+            position: relative;
+            animation: shake 0.5s ease-in-out infinite;
+            overflow: hidden; /* Prevent content from overflowing during animation */
+        }
+        
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            50% { transform: translateX(0); }
+            75% { transform: translateX(5px); }
+            100% { transform: translateX(0); }
+        }
+        
+        .message-header {
+            font-family: 'League Spartan', sans-serif;
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            color: var(--light-color);
+            text-shadow: 0 0 10px rgba(255,0,0,0.8), 0 0 20px rgba(255,0,0,0.5), 0 2px 4px rgba(0,0,0,0.9);
+            margin-bottom: 20px;
+            line-height: 1.2;
+            animation: pulse 2s ease-in-out infinite; /* Slower pulse animation */
+            background-color: rgba(0,0,0,0.5);
+            padding: 15px;
+            border-radius: 10px;
+            border: 3px solid var(--danger-color);
+            box-shadow: 0 0 25px rgba(255,0,0,0.4);
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.03); } /* Less aggressive scaling */
+            100% { transform: scale(1); }
+        }
+        
+        /* Video container */
+        .video-container {
+            width: 90%;
+            max-width: 800px;
+            margin: 30px auto;
+            position: relative;
+            overflow: hidden;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+            border: 6px solid var(--accent-color);
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6), 0 0 20px rgba(255,215,0,0.3);
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+        
+        /* Ticker tape banner */
+        .ticker-banner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: linear-gradient(to right, #0A3161, #041836);
+            border-top: 4px solid var(--accent-color);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            z-index: 100;
+        }
+        
+        .ticker-container {
+            white-space: nowrap;
+            overflow: hidden;
+            width: 100%;
+            position: relative;
+        }
+        
+        .ticker-text {
+            display: inline-block;
+            padding-left: 100%;
+            animation: ticker 90s linear infinite; /* Increased to 90s (50% slower than 60s) */
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--accent-color);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            letter-spacing: 1px;
+            will-change: transform; /* Improve animation performance */
+        }
+        
+        @keyframes ticker {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
+        
+        /* Mobile adjustments */
+        @media (max-width: 768px) {
+            .message-header {
+                font-size: 1.8rem;
+            }
+            
+            .video-container {
+                width: 95%;
+                margin: 20px auto;
+            }
+            
+            .ticker-banner {
+                height: 50px;
+            }
+            
+            .ticker-text {
+                font-size: 18px;
+            }
+            
+            .nav-links {
+                flex-direction: row;
+                flex-wrap: wrap;
+                gap: 10px;
+                justify-content: center;
+            }
+            
+            .nav-links a {
+                font-size: 16px;
+                padding: 6px 12px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .message-header {
+                font-size: 1.5rem;
+            }
+            
+            .ticker-text {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Navigation Bar -->
+    <div class="top-nav">
+        <div class="nav-links">
+            <a href="index.html">Scoreboard</a>
+            <a href="roster.html">Team Roster</a>
+        </div>
+    </div>
+
+    <!-- Message Header -->
+    <div class="message-header-container">
+        <h1 class="message-header">MR. MANAGER DOES NOT TAKE REQUESTS OR MESSAGES, HOW DARE YOU</h1>
+    </div>
+    
+    <!-- Video Container -->
+    <div class="video-container">
+        <iframe 
+            width="560" 
+            height="315" 
+            src="https://www.youtube.com/embed/3BFTio5296w?si=4klIARJ-oDyteXUK&autoplay=1&mute=0" 
+            title="YouTube video player" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            referrerpolicy="strict-origin-when-cross-origin" 
+            allowfullscreen>
+        </iframe>
+    </div>
+    
+    <!-- Ticker Banner -->
+    <div class="ticker-banner">
+        <div class="ticker-container">
+            <div class="ticker-text" id="ticker-text"></div>
+        </div>
+    </div>
+    
+    <script>
+        // Force video to play at full volume
+        document.addEventListener('DOMContentLoaded', function() {
+            // Try to set volume to max after a short delay
+            setTimeout(function() {
+                const iframe = document.querySelector('iframe');
+                if (iframe) {
+                    // YouTube API doesn't easily allow volume control via iframe
+                    // But we've removed the 'mute=1' parameter and added autoplay=1
+                    
+                    // Add click anywhere to unmute instructions for mobile
+                    const body = document.querySelector('body');
+                    body.addEventListener('click', function() {
+                        iframe.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}', '*');
+                    });
+                }
+            }, 1000);
+            
+            // Ticker text with more variety
+            const tickerPhrases = [
+                "MR.MANAGER MAKES ALL THE BEST DECISIONS AND CANNOT BE QUESTIONED",
+                "OUR PLAYERS AND ROSTER ARE AMAZING",
+                "IF WE'RE LOSING, IT'S ALL PART OF THE STRATEGY",
+                "IF WE'RE WINNING, THEN OF COURSE WE ARE",
+                "BRYAN WOO WILL WIN THE CY YOUNG",
+                "RBI IS A DEAD STAT",
+                "BRING BACK MORE POPCORN CLASSICS"
+            ];
+            
+            // Shuffle the array to randomize the order
+            function shuffleArray(array) {
+                for (let i = array.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [array[i], array[j]] = [array[j], array[i]];
+                }
+                return array;
+            }
+            
+            // Get a randomized order of phrases with no duplicates back to back
+            function getRandomizedPhrases() {
+                let phrases = [...tickerPhrases]; // Copy the array
+                let result = [];
+                
+                // Add first phrase
+                let lastIndex = Math.floor(Math.random() * phrases.length);
+                result.push(phrases[lastIndex]);
+                phrases.splice(lastIndex, 1);
+                
+                // Shuffle remaining phrases
+                phrases = shuffleArray(phrases);
+                
+                // Add remaining phrases
+                result = result.concat(phrases);
+                
+                return result;
+            }
+            
+            // Create ticker content with much more repetition to ensure no gaps
+            function createContinuousText() {
+                // Get randomized phrases first
+                const phrases = getRandomizedPhrases();
+                
+                // Create a single string of all phrases with spacing
+                let result = '';
+                
+                // Add each phrase with proper spacing
+                phrases.forEach((phrase, index) => {
+                    result += phrase;
+                    // Add spacing between phrases
+                    if (index < phrases.length - 1) {
+                        result += ' &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ';
+                    }
+                });
+                
+                // Duplicate the entire content multiple times without visible breaks
+                // This ensures seamless looping with no gaps
+                return result.repeat(8);
+            }
+            
+            // Set ticker content
+            document.getElementById('ticker-text').innerHTML = createContinuousText();
+        });
+    </script>
+</body>
+</html>
