@@ -678,14 +678,22 @@
             const card = document.createElement('div');
             card.className = 'player-card';
             
-            // Create player image
+            // Create player image with MLB.com headshot
             const img = document.createElement('img');
             img.className = 'player-image';
-            img.src = `https://www.baseball-reference.com/req/202311267/images/headshots/${player.bbRefId}.jpg`;
+            
+            // Get MLB ID if available, otherwise use placeholder
+            const mlbId = playerMLBIds[player.bbRefId];
+            if (mlbId) {
+                img.src = `https://img.mlbstatic.com/mlb-photos/image/upload/d_people:generic:headshot:67:current.png/w_213,q_auto:best/v1/people/${mlbId}/headshot/67/current`;
+            } else {
+                img.src = 'https://img.mlbstatic.com/mlb-photos/image/upload/d_people:generic:headshot:67:current.png';
+            }
             img.alt = player.name;
-            // Handle image loading errors
+            
+            // Handle any loading errors
             img.onerror = function() {
-                this.src = 'https://www.baseball-reference.com/req/202311267/images/headshots/silhouette.png';
+                this.src = 'https://img.mlbstatic.com/mlb-photos/image/upload/d_people:generic:headshot:67:current.png';
             };
             
             const infoContainer = document.createElement('div');
@@ -700,7 +708,11 @@
             
             const link = document.createElement('a');
             link.className = 'player-link';
-            link.href = `https://www.baseball-reference.com/players/${player.bbRefId.charAt(0)}/${player.bbRefId}.shtml`;
+            if (mlbId) {
+                link.href = `https://www.mlb.com/player/${player.name.toLowerCase().replace(/\s+/g, '-')}-${mlbId}`;
+            } else {
+                link.href = `https://www.baseball-reference.com/players/${player.bbRefId.charAt(0)}/${player.bbRefId}.shtml`;
+            }
             link.target = '_blank';
             link.textContent = player.name;
             
@@ -712,6 +724,52 @@
             card.appendChild(infoContainer);
             
             return card;
+        }
+        
+        // Function to fetch player image from Baseball Reference
+        function fetchPlayerImage(bbRefId, imgElement) {
+            const firstLetter = bbRefId.charAt(0);
+            const playerUrl = `https://www.baseball-reference.com/players/${firstLetter}/${bbRefId}.shtml`;
+            
+            // Use a proxy service to bypass CORS restrictions
+            // Note: In a production environment, you'd want to use your own proxy server
+            const corsProxy = 'https://corsproxy.io/?';
+            const proxyUrl = corsProxy + encodeURIComponent(playerUrl);
+            
+            fetch(proxyUrl)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.text();
+                })
+                .then(html => {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    
+                    // Look for media item divs that might contain player images
+                    const mediaItem = doc.querySelector('div.media-item');
+                    if (mediaItem) {
+                        const playerImage = mediaItem.querySelector('img');
+                        if (playerImage && playerImage.src) {
+                            imgElement.src = playerImage.src;
+                            return;
+                        }
+                    }
+                    
+                    // Alternative strategy: try to find images within specific containers
+                    const allImages = doc.querySelectorAll('img[src*="/images/headshots/"]');
+                    if (allImages.length > 0) {
+                        imgElement.src = allImages[0].src;
+                        return;
+                    }
+                    
+                    // If no image found, keep the silhouette
+                })
+                .catch(error => {
+                    console.error('Error fetching player image:', error);
+                    // Keep the silhouette on error
+                });
         }
     </script>
 </body>
