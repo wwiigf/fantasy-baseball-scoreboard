@@ -145,121 +145,82 @@
             color: rgba(255, 255, 255, 0.8);
         }
         
-        /* Roster table styles */
-        .roster-table {
+        /* Players Grid */
+        .players-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
             width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-        }
-        .roster-table th, .roster-table td {
-            padding: 12px 10px;
-            text-align: left;
-            border-bottom: 1px solid var(--border-color);
         }
         
-        .roster-table th.vote-header {
-            width: 120px;
-            text-align: center;
-        }
-        
-        .roster-table td:last-child {
-            text-align: center;
-        }
-        
-        .roster-table th {
-            background-color: rgba(0,0,0,0.5);
-            color: var(--accent-color);
-            font-weight: bold;
-            text-transform: uppercase;
-        }
-        .roster-table tr:hover {
-            background-color: rgba(255,255,255,0.05);
-        }
-        .roster-table .position {
-            text-align: center;
-            font-weight: bold;
-            width: 60px;
-        }
-        .roster-table .player-stats {
-            text-align: right;
-            font-weight: bold;
-        }
-        
-        /* Roster player link */
-        .player-link {
-            color: var(--accent-color);
-            text-decoration: none;
-            font-weight: bold;
-            transition: all 0.2s ease;
-        }
-        .player-link:hover {
-            text-decoration: underline;
-            color: var(--light-color);
-        }
-        
-        /* Vote system styles */
-        .vote-header {
-            text-align: center;
-        }
-        
-        .vote-controls {
+        .player-card {
+            background: linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.2));
+            border-radius: 8px;
+            padding: 15px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            border-left: 3px solid var(--accent-color);
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            gap: 10px;
+            text-align: center;
         }
         
-        .vote-button {
-            background: none;
-            border: none;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: transparent;
-            width: 32px;
-            height: 32px;
+        .player-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 10px;
+            border: 2px solid var(--accent-color);
+            background-color: #fff;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        }
+        
+        .player-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+        }
+        
+        .player-position {
+            display: inline-block;
+            font-weight: bold;
+            font-size: 14px;
+            color: var(--accent-color);
+            background-color: rgba(0,0,0,0.3);
+            padding: 3px 10px;
             border-radius: 4px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
         
-        .vote-button:hover {
-            transform: scale(1.1);
-        }
-        
-        .vote-up {
-            color: #4CAF50;
-        }
-        
-        .vote-up:hover, .vote-up.active {
-            background-color: rgba(76, 175, 80, 0.15);
-        }
-        
-        .vote-down {
-            color: #F44336;
-        }
-        
-        .vote-down:hover, .vote-down.active {
-            background-color: rgba(244, 67, 54, 0.15);
-        }
-        
-        .vote-count {
+        .player-name {
+            font-size: 18px;
             font-weight: bold;
-            font-size: 16px;
-            min-width: 30px;
-            text-align: center;
+            margin-bottom: 5px;
+            line-height: 1.3;
         }
         
-        .vote-disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
+        .player-link {
+            color: var(--light-color);
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+        
+        .player-link:hover {
+            color: var(--accent-color);
         }
         
         /* Position group styles */
+        .position-group {
+            margin-bottom: 30px;
+        }
+        
         .position-header {
             background-color: rgba(0,0,0,0.3);
             padding: 8px 15px;
-            margin: 20px 0 10px 0;
+            margin: 20px 0 15px 0;
             border-radius: 5px;
             color: var(--accent-color);
             font-weight: bold;
@@ -275,16 +236,6 @@
             color: rgba(255,255,255,0.6);
         }
         
-        /* Player highlight styles */
-        .player-highlight {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            text-align: center;
-            padding: 10px;
-        }
-        
         /* Enhanced text readability */
         h1, h2, .player-name, .position {
             text-shadow: 1px 2px 3px rgba(0,0,0,0.8);
@@ -296,7 +247,7 @@
         
         /* Smooth transitions */
         .content-container, .section-content, .player-link, .nav-links a,
-        .vote-button, .vote-count {
+        .player-card {
             transition: all 0.3s ease;
         }
         
@@ -306,94 +257,139 @@
             box-shadow: 0 8px 15px rgba(0,0,0,0.4);
         }
         
-        /* Player row hover enhancement */
-        .roster-table tbody tr {
+        /* Message Section Styles */
+        .message-section {
+            background: linear-gradient(135deg, #0A3161 0%, #041836 100%);
+            border: 6px solid var(--accent-color);
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6), 0 0 20px rgba(255,215,0,0.3);
+            padding: 20px;
+            box-sizing: border-box;
+            color: var(--light-color);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .message-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .message-header {
+            font-family: 'League Spartan', sans-serif;
+            font-size: 22px;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin: 0 0 10px 0;
+            color: var(--accent-color);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .message-subheader {
+            font-size: 16px;
+            line-height: 1.4;
+            margin-bottom: 20px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .message-button {
+            display: inline-block;
+            color: var(--dark-color);
+            background-color: var(--accent-color);
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 18px;
+            padding: 10px 25px;
+            border-radius: 5px;
             transition: all 0.2s ease;
-            border-left: 3px solid transparent;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
         }
-        
-        .roster-table tbody tr:hover {
-            background-color: rgba(255,255,255,0.08);
-            border-left: 3px solid var(--accent-color);
-            transform: translateX(2px);
+
+        .message-button::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.2), transparent);
+            pointer-events: none;
         }
-        
-        /* Voting animation */
-        @keyframes votePulse {
+
+        .message-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.4);
+            background-color: #FFE566;
+        }
+
+        .message-button:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        }
+
+        .message-counter {
+            font-size: 14px;
+            margin-top: 12px;
+            color: rgba(255,255,255,0.8);
+        }
+
+        #click-count {
+            font-weight: bold;
+            color: var(--accent-color);
+            font-size: 16px;
+        }
+
+        /* Animation for when button is clicked */
+        @keyframes buttonPulse {
             0% { transform: scale(1); }
-            50% { transform: scale(1.5); }
+            50% { transform: scale(1.05); }
             100% { transform: scale(1); }
         }
-        
-        .vote-animation {
-            animation: votePulse 0.5s ease-in-out;
+
+        .button-pulse {
+            animation: buttonPulse 0.3s ease-in-out;
         }
         
         /* Mobile-specific UI improvements */
         @media (max-width: 768px) {
-            /* Enhanced touch targets for mobile */
-            .vote-button {
-                width: 36px;
-                height: 36px;
-                margin: 0 2px;
+            body {
+                padding: 10px;
             }
             
-            /* Card-based layout for players on mobile */
-            .roster-table, .roster-table tbody, .roster-table tr {
-                display: block;
-                width: 100%;
+            .players-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
             }
             
-            .roster-table thead {
-                display: none; /* Hide table headers on mobile */
+            .player-card {
+                padding: 10px;
             }
             
-            .roster-table tbody tr {
-                display: flex;
-                flex-wrap: wrap;
-                margin-bottom: 10px;
-                background-color: rgba(0,0,0,0.2);
-                border-radius: 8px;
-                padding: 8px;
-                box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            .player-position {
+                padding: 2px 8px;
+                font-size: 12px;
+                margin-bottom: 6px;
             }
             
-            .roster-table td {
-                border: none;
-                padding: 5px 8px;
-            }
-            
-            .roster-table td:nth-child(1) { /* Position */
-                order: 1;
-                width: auto;
-                font-weight: bold;
-                color: var(--accent-color);
-                background-color: rgba(0,0,0,0.3);
-                border-radius: 4px;
-                margin-right: 10px;
-                display: inline-block;
-            }
-            
-            .roster-table td:nth-child(2) { /* Player name */
-                order: 2;
-                width: 60%;
+            .player-name {
                 font-size: 16px;
-                font-weight: bold;
             }
             
-            .roster-table td:nth-child(3) { /* Voting */
-                order: 3;
-                width: 100%;
-                display: flex;
-                justify-content: flex-end;
-                padding-top: 8px;
-                margin-top: 5px;
-                border-top: 1px solid rgba(255,255,255,0.1);
+            .position-header {
+                font-size: 16px;
+                padding: 6px 12px;
             }
             
-            .vote-button svg {
-                width: 14px;
-                height: 14px;
+            .section-header {
+                padding: 12px 10px;
             }
             
             .top-nav {
@@ -410,6 +406,72 @@
             .nav-links a {
                 font-size: 16px;
                 padding: 6px 12px;
+            }
+            
+            .message-section {
+                padding: 15px 10px;
+            }
+            
+            .message-header {
+                font-size: 18px;
+            }
+            
+            .message-subheader {
+                font-size: 14px;
+                margin-bottom: 15px;
+            }
+            
+            .message-button {
+                font-size: 16px;
+                padding: 8px 20px;
+            }
+            
+            .message-counter {
+                font-size: 12px;
+                margin-top: 10px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .players-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            
+            .player-card {
+                flex-direction: row;
+                text-align: left;
+                align-items: center;
+                padding: 12px;
+            }
+            
+            .player-image {
+                width: 50px;
+                height: 50px;
+                margin-right: 12px;
+                margin-bottom: 0;
+            }
+            
+            .player-info {
+                display: flex;
+                flex-direction: column;
+            }
+            
+            .player-position {
+                margin-right: 10px;
+                margin-bottom: 4px;
+            }
+            
+            h1 {
+                font-size: 22px;
+            }
+            
+            h2 {
+                font-size: 18px;
+            }
+            
+            .update-date {
+                font-size: 14px;
             }
         }
     </style>
@@ -438,18 +500,19 @@
         </div>
         <div class="content-section">
             <div class="section-content">
-                <table class="roster-table" id="hitters-table">
-                    <thead>
-                        <tr>
-                            <th>Position</th>
-                            <th>Player</th>
-                            <th class="vote-header">Fan Votes</th>
-                        </tr>
-                    </thead>
-                    <tbody id="hitters-body">
-                        <!-- Hitters will be inserted dynamically -->
-                    </tbody>
-                </table>
+                <div class="position-group">
+                    <div class="position-header">Starting Lineup</div>
+                    <div class="players-grid" id="starting-lineup">
+                        <!-- Players will be inserted dynamically -->
+                    </div>
+                </div>
+                
+                <div class="position-group">
+                    <div class="position-header">Bench</div>
+                    <div class="players-grid" id="bench-players">
+                        <!-- Players will be inserted dynamically -->
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -462,18 +525,19 @@
         </div>
         <div class="content-section">
             <div class="section-content">
-                <table class="roster-table" id="pitchers-table">
-                    <thead>
-                        <tr>
-                            <th>Position</th>
-                            <th>Player</th>
-                            <th class="vote-header">Fan Votes</th>
-                        </tr>
-                    </thead>
-                    <tbody id="pitchers-body">
-                        <!-- Pitchers will be inserted dynamically -->
-                    </tbody>
-                </table>
+                <div class="position-group">
+                    <div class="position-header">Starting Rotation</div>
+                    <div class="players-grid" id="starting-rotation">
+                        <!-- Players will be inserted dynamically -->
+                    </div>
+                </div>
+                
+                <div class="position-group">
+                    <div class="position-header">Bullpen</div>
+                    <div class="players-grid" id="bullpen">
+                        <!-- Players will be inserted dynamically -->
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -489,6 +553,18 @@
                     <p>Get real-time team updates, news, and more!</p>
                     <p class="follow-handle">Follow us on Instagram <a href="https://www.instagram.com/war_whatisitgoodfor" target="_blank" style="color: #E1306C !important;">@war_whatisitgoodfor</a></p>
                 </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Message Section -->
+    <div class="message-section">
+        <div class="message-content">
+            <h2 class="message-header">Send a message to Mr. Manager</h2>
+            <p class="message-subheader">Get in touch with Mr. Manager himself. Provide roster recommendations, ask about his favorite beer, or shoot the shit. I don't know, he's lonely and needs this in his life.</p>
+            <a href="message-received.html" class="message-button" id="message-button">Send A Message</a>
+            <div class="message-counter">
+                <span id="click-count">0</span> messages sent
             </div>
         </div>
     </div>
@@ -534,232 +610,108 @@
             { position: "BENCH", name: "Michael Busch", bbRefId: "buschmi01" }
         ];
         
-        // ********UPDATE PLAYER VOTES HERE (IF NEEDED)********
-        // This is optional - votes are stored in localStorage by default
-        // You can pre-populate values if you want to start with some votes
-        const playerVotes = {
-            // Example: "skenepa01": { up: 25, down: 3 }
-        };
-        
         // Initialize when document is ready
         document.addEventListener('DOMContentLoaded', function() {
             // Update the date
             document.getElementById('update-date').textContent = "Updated on " + updateDate;
             
-            // Render roster tables
-            renderPitchers();
-            renderHitters();
+            // Render roster
+            renderRoster();
             
-            // Initialize voting system
-            initVotingSystem();
+            // Load the click count from localStorage for the message button
+            const clickCount = localStorage.getItem('managerMessageCount') || 0;
+            document.getElementById('click-count').textContent = clickCount;
+            
+            // Add event listener to the message button
+            const messageButton = document.getElementById('message-button');
+            messageButton.addEventListener('click', function(e) {
+                // Increment the counter
+                let newCount = parseInt(localStorage.getItem('managerMessageCount') || 0) + 1;
+                localStorage.setItem('managerMessageCount', newCount);
+                
+                // Update the display
+                document.getElementById('click-count').textContent = newCount;
+                
+                // Add animation class
+                this.classList.add('button-pulse');
+                
+                // Remove animation class after animation completes
+                setTimeout(() => {
+                    this.classList.remove('button-pulse');
+                }, 300);
+            });
         });
         
-        // Render pitchers table
-        function renderPitchers() {
-            const pitchersTable = document.getElementById('pitchers-body');
-            pitchersTable.innerHTML = '';
-            
-            pitchersData.forEach(player => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td class="position">${player.position}</td>
-                    <td>
-                        <a href="https://www.baseball-reference.com/players/${player.bbRefId.charAt(0)}/${player.bbRefId}.shtml" 
-                           class="player-link" target="_blank">${player.name}</a>
-                    </td>
-                    <td>
-                        <div class="vote-controls" data-player="${player.bbRefId}">
-                            <button class="vote-button vote-up" data-vote="up" aria-label="Thumbs up" title="I like this player">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
-                                </svg>
-                            </button>
-                            <div class="vote-count">0</div>
-                            <button class="vote-button vote-down" data-vote="down" aria-label="Thumbs down" title="I don't like this player">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-3"></path>
-                                </svg>
-                            </button>
-                        </div>
-                    </td>
-                `;
-                pitchersTable.appendChild(row);
-            });
-        }
-        
-        // Render hitters table
-        function renderHitters() {
-            const hittersTable = document.getElementById('hitters-body');
-            hittersTable.innerHTML = '';
+        // Render the roster
+        function renderRoster() {
+            // Render position players
+            const startingLineup = document.getElementById('starting-lineup');
+            const benchPlayers = document.getElementById('bench-players');
             
             hittersData.forEach(player => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td class="position">${player.position}</td>
-                    <td>
-                        <a href="https://www.baseball-reference.com/players/${player.bbRefId.charAt(0)}/${player.bbRefId}.shtml" 
-                           class="player-link" target="_blank">${player.name}</a>
-                    </td>
-                    <td>
-                        <div class="vote-controls" data-player="${player.bbRefId}">
-                            <button class="vote-button vote-up" data-vote="up" aria-label="Thumbs up" title="I like this player">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
-                                </svg>
-                            </button>
-                            <div class="vote-count">0</div>
-                            <button class="vote-button vote-down" data-vote="down" aria-label="Thumbs down" title="I don't like this player">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-3"></path>
-                                </svg>
-                            </button>
-                        </div>
-                    </td>
-                `;
-                hittersTable.appendChild(row);
-            });
-        }
-        
-        // Initialize the voting system
-        function initVotingSystem() {
-            // Load saved votes from localStorage
-            loadVotes();
-            
-            // Add event listeners to all vote buttons
-            document.querySelectorAll('.vote-button').forEach(button => {
-                button.addEventListener('click', handleVote);
-            });
-        }
-        
-        // Handle vote clicks
-        function handleVote(event) {
-            const button = event.currentTarget;
-            const voteType = button.dataset.vote; // 'up' or 'down'
-            const playerControl = button.closest('.vote-controls');
-            const playerId = playerControl.dataset.player;
-            
-            // Get voted players from this session
-            const votedPlayers = JSON.parse(localStorage.getItem('votedPlayers') || '[]');
-            
-            // Check if player already voted on in this session
-            if (votedPlayers.includes(playerId)) {
-                alert('You have already voted on this player!');
-                return;
-            }
-            
-            // Update vote count in storage
-            updateVoteCount(playerId, voteType);
-            
-            // Add player to voted list for this session
-            votedPlayers.push(playerId);
-            localStorage.setItem('votedPlayers', JSON.stringify(votedPlayers));
-            
-            // Update UI
-            updateVoteUI(playerId);
-            
-            // Mark buttons as voted
-            const upButton = playerControl.querySelector('.vote-up');
-            const downButton = playerControl.querySelector('.vote-down');
-            const voteCountEl = playerControl.querySelector('.vote-count');
-            
-            // Add animation to vote count
-            voteCountEl.classList.add('vote-animation');
-            setTimeout(() => {
-                voteCountEl.classList.remove('vote-animation');
-            }, 500);
-            
-            if (voteType === 'up') {
-                upButton.classList.add('active');
-                upButton.disabled = true;
-                downButton.classList.add('vote-disabled');
-                downButton.disabled = true;
-            } else {
-                downButton.classList.add('active');
-                downButton.disabled = true;
-                upButton.classList.add('vote-disabled');
-                upButton.disabled = true;
-            }
-        }
-        
-        // Update vote count in storage
-        function updateVoteCount(playerId, voteType) {
-            // Get current votes
-            let votes = JSON.parse(localStorage.getItem('playerVotes') || '{}');
-            
-            // Initialize player if not exists
-            if (!votes[playerId]) {
-                votes[playerId] = { up: 0, down: 0 };
-            }
-            
-            // Increment vote
-            votes[playerId][voteType]++;
-            
-            // Save back to storage
-            localStorage.setItem('playerVotes', JSON.stringify(votes));
-        }
-        
-        // Load all votes from storage and update UI
-        function loadVotes() {
-            // Get votes from localStorage
-            const storedVotes = JSON.parse(localStorage.getItem('playerVotes') || '{}');
-            
-            // Merge with any pre-defined votes
-            const votes = { ...playerVotes, ...storedVotes };
-            
-            // Update localStorage with merged votes
-            localStorage.setItem('playerVotes', JSON.stringify(votes));
-            
-            // Update UI for all players
-            Object.keys(votes).forEach(playerId => {
-                updateVoteUI(playerId);
+                const playerCard = createPlayerCard(player);
+                
+                if (player.position === 'BENCH') {
+                    benchPlayers.appendChild(playerCard);
+                } else {
+                    startingLineup.appendChild(playerCard);
+                }
             });
             
-            // Check if player voted in this session
-            const votedPlayers = JSON.parse(localStorage.getItem('votedPlayers') || '[]');
-            votedPlayers.forEach(playerId => {
-                const playerControl = document.querySelector(`.vote-controls[data-player="${playerId}"]`);
-                if (playerControl) {
-                    const upButton = playerControl.querySelector('.vote-up');
-                    const downButton = playerControl.querySelector('.vote-down');
-                    
-                    // Disable both buttons
-                    upButton.disabled = true;
-                    downButton.disabled = true;
-                    upButton.classList.add('vote-disabled');
-                    downButton.classList.add('vote-disabled');
-                    
-                    // Show which one was chosen
-                    const votes = JSON.parse(localStorage.getItem('playerVotes') || '{}');
-                    if (votes[playerId]) {
-                        if (votes[playerId].up > 0) {
-                            upButton.classList.add('active');
-                            upButton.classList.remove('vote-disabled');
-                        }
-                        if (votes[playerId].down > 0) {
-                            downButton.classList.add('active');
-                            downButton.classList.remove('vote-disabled');
-                        }
-                    }
+            // Render pitchers
+            const startingRotation = document.getElementById('starting-rotation');
+            const bullpen = document.getElementById('bullpen');
+            
+            pitchersData.forEach(player => {
+                const playerCard = createPlayerCard(player);
+                
+                if (player.position === 'RP') {
+                    bullpen.appendChild(playerCard);
+                } else {
+                    startingRotation.appendChild(playerCard);
                 }
             });
         }
         
-        // Update the UI for a specific player
-        function updateVoteUI(playerId) {
-            const votes = JSON.parse(localStorage.getItem('playerVotes') || '{}');
-            const playerControls = document.querySelectorAll(`.vote-controls[data-player="${playerId}"]`);
+        // Create a player card
+        function createPlayerCard(player) {
+            const card = document.createElement('div');
+            card.className = 'player-card';
             
-            playerControls.forEach(control => {
-                const voteTotal = control.querySelector('.vote-count');
-                const playerVotes = votes[playerId] || { up: 0, down: 0 };
-                const total = playerVotes.up - playerVotes.down;
-                
-                // Update total count
-                voteTotal.textContent = total > 0 ? `+${total}` : total;
-                
-                // Add color based on vote value
-                voteTotal.style.color = total > 0 ? '#4CAF50' : total < 0 ? '#F44336' : '';
-            });
+            // Create player image
+            const img = document.createElement('img');
+            img.className = 'player-image';
+            img.src = `https://www.baseball-reference.com/req/202311267/images/headshots/${player.bbRefId}.jpg`;
+            img.alt = player.name;
+            // Handle image loading errors
+            img.onerror = function() {
+                this.src = 'https://www.baseball-reference.com/req/202311267/images/headshots/silhouette.png';
+            };
+            
+            const infoContainer = document.createElement('div');
+            infoContainer.className = 'player-info';
+            
+            const position = document.createElement('div');
+            position.className = 'player-position';
+            position.textContent = player.position;
+            
+            const name = document.createElement('div');
+            name.className = 'player-name';
+            
+            const link = document.createElement('a');
+            link.className = 'player-link';
+            link.href = `https://www.baseball-reference.com/players/${player.bbRefId.charAt(0)}/${player.bbRefId}.shtml`;
+            link.target = '_blank';
+            link.textContent = player.name;
+            
+            name.appendChild(link);
+            infoContainer.appendChild(position);
+            infoContainer.appendChild(name);
+            
+            card.appendChild(img);
+            card.appendChild(infoContainer);
+            
+            return card;
         }
     </script>
 </body>
