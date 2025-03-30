@@ -648,13 +648,40 @@
             const startingLineup = document.getElementById('starting-lineup');
             const benchPlayers = document.getElementById('bench-players');
             
+            startingLineup.innerHTML = ''; // Clear any existing content
+            benchPlayers.innerHTML = ''; // Clear any existing content
+            
             hittersData.forEach(player => {
-                const playerCard = createPlayerCard(player);
-                
                 if (player.position === 'BENCH') {
-                    benchPlayers.appendChild(playerCard);
+                    benchPlayers.innerHTML += `
+                        <div class="player-card">
+                            <img class="player-image" 
+                                src="${getPlayerImageUrl(player.bbRefId)}" 
+                                alt="${player.name}"
+                                onerror="this.src='https://img.mlbstatic.com/mlb-photos/image/upload/d_people:generic:headshot:67:current.png'">
+                            <div class="player-info">
+                                <div class="player-position">${player.position}</div>
+                                <div class="player-name">
+                                    <a class="player-link" href="${getPlayerLink(player)}" target="_blank">${player.name}</a>
+                                </div>
+                            </div>
+                        </div>
+                    `;
                 } else {
-                    startingLineup.appendChild(playerCard);
+                    startingLineup.innerHTML += `
+                        <div class="player-card">
+                            <img class="player-image" 
+                                src="${getPlayerImageUrl(player.bbRefId)}" 
+                                alt="${player.name}"
+                                onerror="this.src='https://img.mlbstatic.com/mlb-photos/image/upload/d_people:generic:headshot:67:current.png'">
+                            <div class="player-info">
+                                <div class="player-position">${player.position}</div>
+                                <div class="player-name">
+                                    <a class="player-link" href="${getPlayerLink(player)}" target="_blank">${player.name}</a>
+                                </div>
+                            </div>
+                        </div>
+                    `;
                 }
             });
             
@@ -662,68 +689,63 @@
             const startingRotation = document.getElementById('starting-rotation');
             const bullpen = document.getElementById('bullpen');
             
+            startingRotation.innerHTML = ''; // Clear any existing content
+            bullpen.innerHTML = ''; // Clear any existing content
+            
             pitchersData.forEach(player => {
-                const playerCard = createPlayerCard(player);
-                
                 if (player.position === 'RP') {
-                    bullpen.appendChild(playerCard);
+                    bullpen.innerHTML += `
+                        <div class="player-card">
+                            <img class="player-image" 
+                                src="${getPlayerImageUrl(player.bbRefId)}" 
+                                alt="${player.name}"
+                                onerror="this.src='https://img.mlbstatic.com/mlb-photos/image/upload/d_people:generic:headshot:67:current.png'">
+                            <div class="player-info">
+                                <div class="player-position">${player.position}</div>
+                                <div class="player-name">
+                                    <a class="player-link" href="${getPlayerLink(player)}" target="_blank">${player.name}</a>
+                                </div>
+                            </div>
+                        </div>
+                    `;
                 } else {
-                    startingRotation.appendChild(playerCard);
+                    startingRotation.innerHTML += `
+                        <div class="player-card">
+                            <img class="player-image" 
+                                src="${getPlayerImageUrl(player.bbRefId)}" 
+                                alt="${player.name}"
+                                onerror="this.src='https://img.mlbstatic.com/mlb-photos/image/upload/d_people:generic:headshot:67:current.png'">
+                            <div class="player-info">
+                                <div class="player-position">${player.position}</div>
+                                <div class="player-name">
+                                    <a class="player-link" href="${getPlayerLink(player)}" target="_blank">${player.name}</a>
+                                </div>
+                            </div>
+                        </div>
+                    `;
                 }
             });
         }
         
-        // Create a player card
-        function createPlayerCard(player) {
-            const card = document.createElement('div');
-            card.className = 'player-card';
-            
-            // Create player image with MLB.com headshot
-            const img = document.createElement('img');
-            img.className = 'player-image';
-            
-            // Get MLB ID if available, otherwise use placeholder
+        // Helper function to get player image URL
+        function getPlayerImageUrl(bbRefId) {
+            const mlbId = playerMLBIds[bbRefId];
+            if (mlbId) {
+                return `https://img.mlbstatic.com/mlb-photos/image/upload/d_people:generic:headshot:67:current.png/w_213,q_auto:best/v1/people/${mlbId}/headshot/67/current`;
+            } else {
+                return 'https://img.mlbstatic.com/mlb-photos/image/upload/d_people:generic:headshot:67:current.png';
+            }
+        }
+        
+        // Helper function to get player link
+        function getPlayerLink(player) {
             const mlbId = playerMLBIds[player.bbRefId];
             if (mlbId) {
-                img.src = `https://img.mlbstatic.com/mlb-photos/image/upload/d_people:generic:headshot:67:current.png/w_213,q_auto:best/v1/people/${mlbId}/headshot/67/current`;
+                const formattedName = player.name.toLowerCase().replace(/\s+/g, '-');
+                return `https://www.mlb.com/player/${formattedName}-${mlbId}`;
             } else {
-                img.src = 'https://img.mlbstatic.com/mlb-photos/image/upload/d_people:generic:headshot:67:current.png';
+                return `https://www.baseball-reference.com/players/${player.bbRefId.charAt(0)}/${player.bbRefId}.shtml`;
             }
-            img.alt = player.name;
-            
-            // Handle any loading errors
-            img.onerror = function() {
-                this.src = 'https://img.mlbstatic.com/mlb-photos/image/upload/d_people:generic:headshot:67:current.png';
-            };
-            
-            const infoContainer = document.createElement('div');
-            infoContainer.className = 'player-info';
-            
-            const position = document.createElement('div');
-            position.className = 'player-position';
-            position.textContent = player.position;
-            
-            const name = document.createElement('div');
-            name.className = 'player-name';
-            
-            const link = document.createElement('a');
-            link.className = 'player-link';
-            if (mlbId) {
-                link.href = `https://www.mlb.com/player/${player.name.toLowerCase().replace(/\s+/g, '-')}-${mlbId}`;
-            } else {
-                link.href = `https://www.baseball-reference.com/players/${player.bbRefId.charAt(0)}/${player.bbRefId}.shtml`;
-            }
-            link.target = '_blank';
-            link.textContent = player.name;
-            
-            name.appendChild(link);
-            infoContainer.appendChild(position);
-            infoContainer.appendChild(name);
-            
-            card.appendChild(img);
-            card.appendChild(infoContainer);
-            
-            return card;
         }
         
         // Function to fetch player image from Baseball Reference
